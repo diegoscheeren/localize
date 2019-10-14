@@ -19,6 +19,13 @@ class ItemController extends Controller
         return view('cadastro.item.adicionar', compact('unds', 'grupos'));
     }
 
+    public function pesquisar()
+    {
+        $itens = Item::all();
+
+        return ['msg' => 'Pesquisa realizada com sucesso', 'status' => true, 'data' => $itens];
+    }
+
     public function salvar(Request $req)
     {
         $dados = $req->all();
@@ -76,14 +83,14 @@ class ItemController extends Controller
         return redirect()->route('item.pesquisar')->with('response', $resp);
     }
 
-    public function deletar($id)
+    public function deletar(Request $request)
     {
-        $reg = Item::find($id)->delete();
+        $reg = Item::find($request->id)->delete();
 
         $resp = $reg
-            ? ['msg' => 'Excluido com sucesso', 'type' => 'green']
-            : ['msg' => 'Erro ao excluir', 'type' => 'red'];
+            ? ['msg' => 'Excluido com sucesso', 'status' => true]
+            : ['msg' => 'Erro ao excluir', 'status' => false];
 
-        return redirect()->route('item.pesquisar')->with('response', $resp);
+        return $resp;
     }
 }

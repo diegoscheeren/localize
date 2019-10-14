@@ -13,7 +13,11 @@ use Illuminate\Http\Request;
 |
 */
 Route::post('/cadastro', ['as' => 'cadastro', 'uses' => 'AuthController@cadastrar']);
-Route::post('/cadastro/item', ['as' => 'cadastro', 'uses' => 'ItemController@salvar']);
+
+Route::get('/item', ['as' => 'pesquisa.item', 'uses' => 'ItemController@pesquisar']);
+Route::post('/item', ['as' => 'cadastro.item', 'uses' => 'ItemController@salvar']);
+Route::delete('/item', ['as' => 'deletar.item', 'uses' => 'ItemController@deletar']);
+
 Route::post('/login', ['as' => 'login', 'uses' => 'AuthController@login']);
 
 Route::middleware('auth:api')->get('/usuario', function (Request $request) {

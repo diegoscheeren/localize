@@ -2,15 +2,13 @@
    <ul id="slide-out" class="sidenav"><!--fixed-->
     <!-- userbackground -->
   <li><div class="user-view">
-      <div class="background">
-        <img src="https://materializecss.com/images/office.jpg">
-      </div>
-      <a href="#user"><img class="circle" src="https://materializecss.com/images/yuna.jpg"></a>
+      <div class="background" style="background: rgb(43,135,204); background: radial-gradient(circle, rgba(43,135,204,1) 0%, rgba(48,57,59,1) 100%);"></div>
+      <a href="#user"><img class="circle" src="http://pluspng.com/img-png/user-png-icon-male-user-icon-512.png"></a>
       <a href="#name"><span class="white-text name">{{usuario.name}}</span></a>
       <a href="#email"><span class="white-text email">{{usuario.email}}</span></a>
     </div></li>
     <!-- userbackground -->
-    <li><a class="waves-effect"><i class="material-icons">home</i> Inicio</a></li>
+    <li><router-link to="/"><i class="material-icons">home</i> Inicio</router-link></li>
     <li><div class="divider"></div></li>
     <li class="no-padding">
         <ul class="collapsible collapsible-accordion">
@@ -19,19 +17,19 @@
                 <div class="collapsible-body">
                     <ul>
                         <li>
-                            <a href="">
+                            <router-link to="/cadastro/cliente">
                                 <i class="material-icons">person_add</i>
                                 Clientes
-                            </a>
+                            </router-link>
                         </li>
                         <li>
-                            <a href="">
+                            <router-link to="/pesquisa/item">
                                 <i class="material-icons">local_bar</i>
                                 Itens
-                            </a>
+                            </router-link>
                         </li>
                         <li>
-                            <a href="">
+                            <a>
                                 <i class="material-icons">settings_ethernet</i>
                                 Unidades de medida
                             </a>
@@ -73,6 +71,11 @@ export default {
             usuario: false
         }
     },
+    methods: {
+        to(rota) {
+            this.$router.push(rota);
+        }
+    },
     created() {
         let usuarioAux = this.$store.getters.getUsuario;
         if (usuarioAux) {
@@ -84,6 +87,16 @@ export default {
         $(document).ready(function() {
             $('.sidenav').sidenav();
             $('.collapsible').collapsible();
+            $('select').not('.disabled').formSelect();
+            $('.tabs').tabs();
+            $('.tooltipped').tooltip();
+
+            $('#search').on('keyup', function() {
+                var value = $(this).val().toLowerCase();
+                $('#tbl tr').filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
         });
     }
 }

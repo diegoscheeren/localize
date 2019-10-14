@@ -1,22 +1,8 @@
 <template>
     <site-template>
 
-        <span slot="menuesquerdo">
-            <div class="row valign-wrapper">
-                <grid-vue tamanho="4">
-                    <img :src="usuario.imagem" :alt="usuario.name"
-                        class="circle responsive-img">
-                </grid-vue>
-                <grid-vue tamanho="8">
-                    <span class="black-text">
-                        <h5>{{usuario.name}}</h5>
-                    </span>
-                </grid-vue>
-            </div>
-        </span>
-
         <span slot="principal">
-            <publicar-conteudo-vue/>
+            <!-- <publicar-conteudo-vue/>
             <card-conteudo-vue
                 perfil="https://materializecss.com/images/yuna.jpg"
                 nome="Diego"
@@ -28,7 +14,7 @@
                     txt="txt exemplo">
                 </card-detalhe-vue>
 
-            </card-conteudo-vue>
+            </card-conteudo-vue> -->
         </span>
 
     </site-template>

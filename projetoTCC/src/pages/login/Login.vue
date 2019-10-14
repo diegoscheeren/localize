@@ -41,8 +41,7 @@ export default {
   },
   methods:{
     login(){
-      console.log("ok");
-      this.$http.post(this.$urlAPI+`login`, {
+      this.$http.post(this.$urlAPI + 'login', {
         email: this.email,
         password:this.password
       })

@@ -1,5 +1,5 @@
 <template>
-    <nav :class="cor || 'blue'">
+    <nav :class="cor || 'blue'" style="z-index:1000">
         <a href="#" data-target="slide-out" class="sidenav-trigger show-on-large left-align">
             <i class="material-icons">menu</i>
         </a>

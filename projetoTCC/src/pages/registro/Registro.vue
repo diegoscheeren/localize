@@ -1,9 +1,10 @@
 <template>
 
-  <login-template>
+  <site-template>
 
     <span slot="menuesquerdo">
-      <img src="https://www.designerd.com.br/wp-content/uploads/2013/06/criar-rede-social.png" class="responsive-img">
+        <img src="https://www.designerd.com.br/wp-content/uploads/2013/06/criar-rede-social.png"
+            class="responsive-img">
     </span>
 
     <span slot="principal">
@@ -19,7 +20,7 @@
 
     </span>
 
-  </login-template>
+  </site-template>
 
 </template>
 
@@ -28,7 +29,7 @@ import LoginTemplate from '@/templates/LoginTemplate'
 
 
 export default {
-  name: 'Cadastro',
+  name: 'Registro',
   data () {
     return {
       name:'',
@@ -42,17 +43,14 @@ export default {
   },
   methods:{
     cadastro(){
-      console.log("ok");
-      this.$http.post(this.$urlAPI+`cadastro`, {
+      this.$http.post(this.$urlAPI + 'cadastro', {
         name: this.name,
         email: this.email,
         password:this.password,
         password_confirmation:this.password_confirmation
       })
       .then(response => {
-        //console.log(response)
-        if(response.data.status){
-          // login com sucesso
+        if (response.data.status) {
           console.log('Cadastro realizado com sucesso')
           this.$store.commit('setUsuario',response.data.usuario);
           sessionStorage.setItem('usuario',JSON.stringify(response.data.usuario));
