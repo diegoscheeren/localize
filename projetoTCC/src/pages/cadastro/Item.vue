@@ -3,8 +3,8 @@
     <site-template>
 
         <span slot="principal">
-            <h3 class="center" v-if="!this.isEdit">Cadastro de Item</h3>
-            <h3 class="center" v-if="this.isEdit">Edição de Item</h3>
+            <h4 class="center" v-if="!this.isEdit">Cadastro de Item</h4>
+            <h4 class="center" v-if="this.isEdit">Edição de Item</h4>
             <form name="form" enctype="multipart/form-data">
                 <input type="hidden" name="id" v-model="id">
 

@@ -3,8 +3,8 @@
     <site-template>
 
         <span slot="principal">
-            <h3 class="center" v-if="!this.isEdit">Cadastro de Cliente</h3>
-            <h3 class="center" v-if="this.isEdit">Edição de Cliente</h3>
+            <h4 class="center" v-if="!this.isEdit">Cadastro de Clientes</h4>
+            <h4 class="center" v-if="this.isEdit">Edição de Cliente</h4>
             <form name="form" enctype="multipart/form-data">
                 <div class="row">
                     <div class="col s12">
@@ -114,7 +114,7 @@ export default {
             data_nascimento: ''
         }
     },
-    components:{
+    components: {
         SiteTemplate
     },
     created() {

@@ -26,25 +26,23 @@
 <script>
 import NavBar from '@/components/layouts/NavBar'
 import GridVue from '@/components/layouts/GridVue'
-import FooterVue from '@/components/layouts/FooterVue'
 import SideNavVue from '@/components/layouts/SideNavVue'
 import CardMenuVue from '@/components/layouts/CardMenuVue'
 
 export default {
     name: 'SiteTemplate',
-    data(){
+    data() {
         return {
         usuario: false
         }
     },
-    components:{
+    components: {
         NavBar,
         GridVue,
-        FooterVue,
         SideNavVue,
         CardMenuVue
     },
-    created(){
+    created() {
         let usuarioAux = this.$store.getters.getUsuario;
         if (usuarioAux) {
             this.usuario = this.$store.getters.getUsuario;
@@ -52,12 +50,12 @@ export default {
             this.$router.push('/login');
         }
     },
-    methods:{
-        sair(){
-        this.$store.commit('setUsuario', null);
-        sessionStorage.clear();
-        this.usuario = false;
-        this.$router.push('/login');
+    methods: {
+        sair() {
+            this.$store.commit('setUsuario', null);
+            sessionStorage.clear();
+            this.usuario = false;
+            this.$router.push('/login');
         }
     }
 }

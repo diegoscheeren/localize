@@ -34,3 +34,9 @@ Route::get('/cliente', ['as' => 'pesquisar.cliente', 'uses' => 'ClienteControlle
 Route::put('/cliente', ['as' => 'atualizar.cliente', 'uses' => 'ClienteController@atualizar']);
 Route::post('/cliente', ['as' => 'cadastrar.cliente', 'uses' => 'ClienteController@salvar']);
 Route::delete('/cliente', ['as' => 'deletar.cliente', 'uses' => 'ClienteController@deletar']);
+
+//_______________________________ PEDIDO ____________________________________________//
+Route::get('/pedido', ['as' => 'pesquisar.pedido', 'uses' => 'PedidoController@pesquisar']);
+Route::put('/pedido', ['as' => 'atualizar.pedido', 'uses' => 'PedidoController@atualizar']);
+Route::post('/pedido', ['as' => 'cadastrar.pedido', 'uses' => 'PedidoController@salvar']);
+Route::delete('/pedido', ['as' => 'deletar.pedido', 'uses' => 'PedidoController@deletar']);

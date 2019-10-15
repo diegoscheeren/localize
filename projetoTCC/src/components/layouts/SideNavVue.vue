@@ -8,8 +8,12 @@
       <a href="#email"><span class="white-text email">{{usuario.email}}</span></a>
     </div></li>
     <!-- userbackground -->
-    <li><router-link to="/"><i class="material-icons">home</i> Inicio</router-link></li>
-    <li><div class="divider"></div></li>
+    <li>
+        <router-link class="waves-effect" to="/"><i class="material-icons">home</i> Inicio</router-link>
+    </li>
+    <li>
+        <div class="divider"></div>
+    </li>
     <li class="no-padding">
         <ul class="collapsible collapsible-accordion">
             <li>
@@ -17,13 +21,13 @@
                 <div class="collapsible-body">
                     <ul>
                         <li>
-                            <router-link to="/pesquisa/cliente">
+                            <router-link class="waves-effect" to="/pesquisa/cliente">
                                 <i class="material-icons">person_add</i>
                                 Clientes
                             </router-link>
                         </li>
                         <li>
-                            <router-link to="/pesquisa/item">
+                            <router-link class="waves-effect" to="/pesquisa/item">
                                 <i class="material-icons">local_bar</i>
                                 Itens
                             </router-link>
@@ -47,10 +51,10 @@
     </li>
     <li><div class="divider"></div></li>
     <li class="no-padding">
-        <a class="waves-effect" href="">
+        <router-link class="waves-effect" to="/pesquisa/pedido">
             <i class="material-icons">note_add</i>
             Pedidos
-        </a>
+        </router-link>
     </li>
     <li><div class="divider"></div></li>
     <li class="no-padding">
@@ -92,11 +96,39 @@ export default {
             $('.tooltipped').tooltip();
             M.updateTextFields();
 
+            $('table').addClass('responsive-table centered');
+
+            // $(window).on('resize', function () {
+            //     var $grid = $('#grid'),
+            //         newWidth = $grid.closest('.ui-jqgrid').parent().width();
+            //     $grid.jqGrid('setGridWidth', newWidth, true);
+            // });
+
             $('#search').on('keyup', function() {
                 var value = $(this).val().toLowerCase();
                 $('#tbl tr').filter(function() {
                     $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
                 });
+            });
+
+            $('.datepicker').datepicker({
+                months: [
+                    'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+                    'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+                ],
+                monthsShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+                weekdays: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sabádo'],
+                weekdaysAbbrev: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
+                today: 'Hoje',
+                clear: 'Limpar',
+                close: 'Pronto',
+                labelMonthNext: 'Próximo mês',
+                labelMonthPrev: 'Mês anterior',
+                labelMonthSelect: 'Selecione um mês',
+                labelYearSelect: 'Selecione um ano',
+                selectMonths: true,
+                selectYears: 150,
+                format: 'dd/mm/yyyy'
             });
         });
     }

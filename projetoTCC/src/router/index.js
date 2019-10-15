@@ -3,11 +3,13 @@ import Router from 'vue-router'
 import Home from '@/pages/home/Home'
 import Login from '@/pages/login/Login'
 import Item from '@/pages/cadastro/Item'
+import Pedido from '@/pages/cadastro/Pedido'
 import Perfil from '@/pages/perfil/Perfil'
 import Cliente from '@/pages/cadastro/Cliente'
 import Registro from '@/pages/registro/Registro'
 import PesquisaItem from '@/pages/pesquisa/Item'
 import PesquisaCliente from '@/pages/pesquisa/Cliente'
+import PesquisaPedido from '@/pages/pesquisa/Pedido'
 
 Vue.use(Router)
 
@@ -53,6 +55,16 @@ export default new Router({
             path: '/pesquisa/item',
             name: 'PesquisaItem',
             component: PesquisaItem
+        },
+        {
+            path: '/pesquisa/pedido',
+            name: 'PesquisaPedido',
+            component: PesquisaPedido
+        },
+        {
+            path: '/cadastro/pedido',
+            name: 'Pedido',
+            component: Pedido
         },
         {
             path: '*',

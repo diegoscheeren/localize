@@ -3,7 +3,7 @@
     <site-template>
 
         <span slot="principal">
-            <h3 class="center">Pesquisa de Cliente</h3>
+            <h4 class="center">Pesquisa de Clientes</h4>
             <div class="row">
                 <input id="search" type="text" placeholder="Pesquisar...">
                 </div>
