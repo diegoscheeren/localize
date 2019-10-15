@@ -17,7 +17,7 @@
                 <div class="collapsible-body">
                     <ul>
                         <li>
-                            <router-link to="/cadastro/cliente">
+                            <router-link to="/pesquisa/cliente">
                                 <i class="material-icons">person_add</i>
                                 Clientes
                             </router-link>
@@ -90,6 +90,7 @@ export default {
             $('select').not('.disabled').formSelect();
             $('.tabs').tabs();
             $('.tooltipped').tooltip();
+            M.updateTextFields();
 
             $('#search').on('keyup', function() {
                 var value = $(this).val().toLowerCase();

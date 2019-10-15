@@ -7,6 +7,7 @@ import Perfil from '@/pages/perfil/Perfil'
 import Cliente from '@/pages/cadastro/Cliente'
 import Registro from '@/pages/registro/Registro'
 import PesquisaItem from '@/pages/pesquisa/Item'
+import PesquisaCliente from '@/pages/pesquisa/Cliente'
 
 Vue.use(Router)
 
@@ -42,6 +43,11 @@ export default new Router({
             path: '/cadastro/cliente',
             name: 'Cliente',
             component: Cliente
+        },
+        {
+            path: '/pesquisa/cliente',
+            name: 'PesquisaCliente',
+            component: PesquisaCliente
         },
         {
             path: '/pesquisa/item',

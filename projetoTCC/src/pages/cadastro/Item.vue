@@ -3,8 +3,11 @@
     <site-template>
 
         <span slot="principal">
-            <h3 class="center">Cadastro de Item</h3>
+            <h3 class="center" v-if="!this.isEdit">Cadastro de Item</h3>
+            <h3 class="center" v-if="this.isEdit">Edição de Item</h3>
             <form name="form" enctype="multipart/form-data">
+                <input type="hidden" name="id" v-model="id">
+
                 <div class="input-field">
                     <label>Codigo</label>
                     <input type="text" name="codigo" v-model="codigo">
@@ -74,31 +77,69 @@ export default {
     name: 'Item',
     data () {
         return {
+            id: '',
             codigo: '',
             descricao: '',
             valor_custo: '',
             valor_venda: '',
             estoque: '',
             grupo: '',
-            unidade_medida: ''
+            unidade_medida: '',
+            isEdit: false
         }
     },
     components: {
         SiteTemplate
     },
     created() {
+        let dados = this.$store.getters.getData;
+        this.isEdit = !jQuery.isEmptyObject(this.$store.getters.getData);
+
+        if (!jQuery.isEmptyObject(dados)) {
+            this.id = dados.id;
+            this.grupo = dados.grupo;
+            this.codigo = dados.codigo;
+            this.estoque = dados.estoque;
+            this.descricao = dados.descricao;
+            this.valor_custo = dados.valor_custo;
+            this.valor_venda = dados.valor_venda;
+            this.unidade_medida = dados.unidade_medida;
+            this.$store.commit('setData', {});
+        }
     },
     methods: {
         cadastro() {
             let dados = {
+                id: this.id,
+                grupo: this.grupo,
                 codigo: this.codigo,
+                estoque: this.estoque,
                 descricao: this.descricao,
                 valor_custo: this.valor_custo,
                 valor_venda: this.valor_venda,
-                estoque: this.estoque,
-                grupo: this.grupo,
                 unidade_medida: this.unidade_medida
             };
+
+            if (this.id) {
+                this.$http.put(this.$urlAPI + 'item', dados)
+                    .then(resp => {
+                        M.toast({
+                            html: resp.data.msg,
+                            displayLength: 5000,
+                            classes: ((resp.data.status == true) ? 'green darken-1' : 'red darken-1')
+                        });
+                        this.$router.push('/pesquisa/item');
+                    })
+                    .catch(e => {
+                        M.toast({
+                            html: 'Erro ao editar, verifique os dados',
+                            displayLength: 5000,
+                            classes: 'red darken-1'
+                        });
+                    })
+
+                return;
+            }
 
             this.$http.post(this.$urlAPI + 'item', dados)
                 .then(resp => {

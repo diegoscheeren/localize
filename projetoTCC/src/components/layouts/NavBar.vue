@@ -3,7 +3,7 @@
         <a href="#" data-target="slide-out" class="sidenav-trigger show-on-large left-align">
             <i class="material-icons">menu</i>
         </a>
-        <div class="nav-wrapper container">
+        <div class="nav-wrapper container center">
             <router-link class="brand-logo" :to="url || '/'">{{logo || 'Localize LC'}}</router-link>
             <ul id="nav-mobile" class="right hide-on-med-and-down">
                 <slot/>

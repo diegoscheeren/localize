@@ -6,29 +6,18 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Item;
-use App\ItemGrupo;
-use App\UnidadeMedida;
 
 class ItemController extends Controller
 {
-    public function adicionar()
-    {
-        $unds = UnidadeMedida::all();
-        $grupos = ItemGrupo::all();
-
-        return view('cadastro.item.adicionar', compact('unds', 'grupos'));
-    }
-
     public function pesquisar()
     {
-        $itens = Item::all();
-
-        return ['msg' => 'Pesquisa realizada com sucesso', 'status' => true, 'data' => $itens];
+        return ['msg' => 'Pesquisa realizada com sucesso', 'status' => true, 'data' => Item::all()];
     }
 
     public function salvar(Request $req)
     {
         $dados = $req->all();
+        unset($dados['id']);
 
         // if ($req->hasFile('imagem')) {
         //     $imagem = $req->file('imagem');
@@ -50,37 +39,29 @@ class ItemController extends Controller
         return $resp;
     }
 
-    public function editar($id)
-    {
-        $registro = Item::find($id);
-        $unds = UnidadeMedida::all();
-        $grupos = ItemGrupo::all();
-
-        return view('cadastro.item.editar', compact('registro', 'unds', 'grupos'));
-    }
-
-    public function atualizar(Request $req, $id)
+    public function atualizar(Request $req)
     {
         $dados = $req->all();
+        // return $dados;
 
-        if ($req->hasFile('imagem')) {
-            $imagem = $req->file('imagem');
-            $num = rand(1111, 9999);
-            $dir = 'img/itens/';
-            $extensao = $imagem->guessClientExtension();
-            $nomeImagem = $num . $extensao;
-            $imagem->move($dir, $nomeImagem);
+        // if ($req->hasFile('imagem')) {
+        //     $imagem = $req->file('imagem');
+        //     $num = rand(1111, 9999);
+        //     $dir = 'img/itens/';
+        //     $extensao = $imagem->guessClientExtension();
+        //     $nomeImagem = $num . $extensao;
+        //     $imagem->move($dir, $nomeImagem);
 
-            $dados['imagem'] = "{$dir}/{$nomeImagem}";
-        }
+        //     $dados['imagem'] = "{$dir}/{$nomeImagem}";
+        // }
 
-        $reg = Item::find($id)->update($dados);
+        $reg = Item::find($dados['id'])->update($dados);
 
         $resp = $reg
-            ? ['msg' => 'Editado com sucesso', 'type' => 'green']
-            : ['msg' => 'Erro ao editar', 'type' => 'red'];
+            ? ['msg' => 'Editado com sucesso', 'status' => true]
+            : ['msg' => 'Erro ao editar', 'status' => false];
 
-        return redirect()->route('item.pesquisar')->with('response', $resp);
+        return $resp;
     }
 
     public function deletar(Request $request)

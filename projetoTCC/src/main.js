@@ -13,20 +13,27 @@ Vue.prototype.$http = axios
 Vue.prototype.$urlAPI = 'http://127.0.0.1:8000/api/'
 
 var store = {
-    state:{
-        usuario: sessionStorage.getItem('usuario') ? JSON.parse(sessionStorage.getItem('usuario')) : null
+    state: {
+        usuario: sessionStorage.getItem('usuario') ? JSON.parse(sessionStorage.getItem('usuario')) : null,
+        data: {}
     },
     getters: {
         getUsuario: state => {
             return state.usuario;
         },
-        getToken: state =>{
+        getToken: state => {
             return state.usuario.token;
+        },
+        getData: state => {
+            return state.data;
         }
     },
     mutations: {
-        setUsuario(state,n) {
+        setUsuario(state, n) {
             state.usuario = n;
+        },
+        setData(state, data) {
+            state.data = data;
         }
     }
 };

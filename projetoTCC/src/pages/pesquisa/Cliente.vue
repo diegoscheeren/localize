@@ -3,7 +3,7 @@
     <site-template>
 
         <span slot="principal">
-            <h3 class="center">Pesquisa de Item</h3>
+            <h3 class="center">Pesquisa de Cliente</h3>
             <div class="row">
                 <input id="search" type="text" placeholder="Pesquisar...">
                 </div>
@@ -11,25 +11,35 @@
                 <table class="responsive-table centered">
                     <thead>
                     <tr>
-                        <th>Código</th>
-                        <th>Descrição</th>
-                        <th>Grupo</th>
-                        <th>Un. Medida</th>
-                        <th>Custo</th>
-                        <th>Preço</th>
-                        <th>Estoque</th>
+                        <th>Nome</th>
+                        <th>CPF</th>
+                        <th>RG</th>
+                        <th>Dt Nasc</th>
+                        <th>E-Mail</th>
+                        <th>Telefone</th>
+                        <th>Município</th>
+                        <th>UF</th>
+                        <th>Endereço</th>
+                        <th>Bairro</th>
+                        <th>Número</th>
+                        <th>Complemento</th>
                         <th>Ações</th>
                     </tr>
                     </thead>
                     <tbody id="tbl">
                         <tr v-for="dado in dados" :key="dado.id">
-                            <td>{{dado.codigo}}</td>
-                            <td>{{dado.descricao}}</td>
-                            <td>{{dado.grupo}}</td>
-                            <td>{{dado.unidade_medida}}</td>
-                            <td>{{dado.valor_custo}}</td>
-                            <td>{{dado.valor_venda}}</td>
-                            <td>{{dado.estoque}}</td>
+                            <td>{{dado.nome}}</td>
+                            <td>{{dado.cpf}}</td>
+                            <td>{{dado.rg}}</td>
+                            <td>{{dado.data_nascimento}}</td>
+                            <td>{{dado.email}}</td>
+                            <td>{{dado.telefone}}</td>
+                            <td>{{dado.municipio}}</td>
+                            <td>{{dado.uf}}</td>
+                            <td>{{dado.endereco}}</td>
+                            <td>{{dado.bairro}}</td>
+                            <td>{{dado.numero}}</td>
+                            <td>{{dado.complemento}}</td>
                             <td>
                                 <button class="btn deep-orange tooltipped" @click="editar(dado)"
                                     data-tooltip="Editar">
@@ -45,7 +55,7 @@
                 </table>
                 </div>
                 <div class="row">
-                <router-link class="btn blue" to="/cadastro/item">Adicionar</router-link>
+                <router-link class="btn blue" to="/cadastro/cliente">Adicionar</router-link>
             </div>
 
         </span>
@@ -57,7 +67,7 @@
 import SiteTemplate from '@/templates/SiteTemplate'
 
 export default {
-    name: 'PesquisaItem',
+    name: 'PesquisaCliente',
     data () {
         return {
             dados: {}
@@ -71,7 +81,7 @@ export default {
     },
     methods: {
         excluir(id) {
-            this.$http.delete(this.$urlAPI + 'item', {data: {id: id}})
+            this.$http.delete(this.$urlAPI + 'cliente', {data: {id: id}})
                 .then(resp => {
                      M.toast({
                         html: resp.data.msg,
@@ -83,11 +93,11 @@ export default {
         },
         editar(row) {
             this.$store.commit('setData', row);
-            console.log(row);
-            this.$router.push('/cadastro/item');
+            // console.log(row);
+            this.$router.push('/cadastro/cliente');
         },
         consultar() {
-            this.$http.get(this.$urlAPI + 'item')
+            this.$http.get(this.$urlAPI + 'cliente')
                 .then(resp => {
                     this.dados = resp.data.data;
                     M.toast({
