@@ -29,4 +29,9 @@ class Item extends Model
     {
         return $this->belongsTo(ItemGrupo::class, 'grupo');
     }
+
+    public function pedidos()
+    {
+        return $this->belongsToMany(Pedido::class, 'pedidos_itens', 'id', 'id');
+    }
 }

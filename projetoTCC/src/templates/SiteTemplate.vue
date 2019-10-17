@@ -3,19 +3,16 @@
     <header style="position: fixed; top: 0; width: 100%; z-index: 1;">
       <nav-bar logo="Localize" url="/" cor="grey darken-4">
         <li v-if="!usuario"><router-link to="/login">Entrar</router-link></li>
-        <li v-if="!usuario"><router-link to="/cadastro">Cadastre-se</router-link></li>
         <li v-if="usuario"><router-link to="/perfil">{{usuario.name}}</router-link></li>
         <li v-if="usuario"><a v-on:click="sair()">Sair</a></li>
       </nav-bar>
     </header>
 
     <side-nav-vue/>
-    <main style=" padding-top: 60px;">
+    <main style="padding-top: 60px;">
         <div class="container">
             <div class="row">
-                <grid-vue tamanho="12">
-                    <slot name="principal" />
-                </grid-vue>
+                <slot name="principal"/>
             </div>
         </div>
     </main>
@@ -25,7 +22,6 @@
 
 <script>
 import NavBar from '@/components/layouts/NavBar'
-import GridVue from '@/components/layouts/GridVue'
 import SideNavVue from '@/components/layouts/SideNavVue'
 import CardMenuVue from '@/components/layouts/CardMenuVue'
 
@@ -33,12 +29,11 @@ export default {
     name: 'SiteTemplate',
     data() {
         return {
-        usuario: false
+            usuario: false
         }
     },
     components: {
         NavBar,
-        GridVue,
         SideNavVue,
         CardMenuVue
     },

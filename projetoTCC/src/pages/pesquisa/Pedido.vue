@@ -1,7 +1,5 @@
 <template>
-
     <site-template>
-
         <span slot="principal">
             <h4 class="center">Pesquisa de Pedidos</h4>
             <div class="row">
@@ -24,12 +22,12 @@
                     <tbody id="tbl">
                         <tr v-for="dado in dados" :key="dado.id">
                             <td>{{dado.id}}</td>
-                            <td>{{dado.cliente}}</td>
-                            <td>{{dado.garcom}}</td>
+                            <td>{{dado.pedido_cliente.nome}}</td>
+                            <td>{{dado.pedido_garcom.name}}</td>
                             <td>{{dado.quantidade_pessoas}}</td>
                             <td>{{dado.mesa}}</td>
                             <td>{{dado.valor_total}}</td>
-                            <td>{{dado.status}}</td>
+                            <td>{{dado.status.descricao}}</td>
                             <td>
                                 <button class="btn deep-orange tooltipped" @click="editar(dado)"
                                     data-tooltip="Editar">
@@ -57,7 +55,7 @@
 import SiteTemplate from '@/templates/SiteTemplate'
 
 export default {
-    name: 'Pedido',
+    name: 'PesquisaPedido',
     data () {
         return {
             dados: {}
@@ -83,12 +81,11 @@ export default {
         },
         editar(row) {
             this.$store.commit('setData', row);
-            this.$router.push('/pesquisa/pedido');
+            this.$router.push('/cadastro/pedido');
         },
         consultar() {
             this.$http.get(this.$urlAPI + 'pedido')
                 .then(resp => {
-                    console.log(resp);
                     this.dados = resp.data.data;
                     M.toast({
                         html: resp.data.msg,
@@ -109,5 +106,4 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
 </style>

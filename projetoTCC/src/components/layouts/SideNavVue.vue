@@ -2,14 +2,14 @@
    <ul id="slide-out" class="sidenav"><!--fixed-->
     <!-- userbackground -->
   <li><div class="user-view">
-      <div class="background" style="background: rgb(43,135,204); background: radial-gradient(circle, rgba(43,135,204,1) 0%, rgba(48,57,59,1) 100%);"></div>
-      <a href="#user"><img class="circle" src="http://pluspng.com/img-png/user-png-icon-male-user-icon-512.png"></a>
-      <a href="#name"><span class="white-text name">{{usuario.name}}</span></a>
-      <a href="#email"><span class="white-text email">{{usuario.email}}</span></a>
+      <div class="background" style="background: linear-gradient(90deg, rgba(22,22,23,1) 22%, rgba(95,96,96,1) 83%);"></div>
+      <a href="#user"><img :src="usuario.imagem" class="circle responsive-img"></a>
+      <a href="#name"><span class="white-text name" style="font-size: 15px">{{usuario.name}}</span></a>
+      <a href="#email"><span class="white-text email" style="font-size: 15px">{{usuario.email}}</span></a>
     </div></li>
     <!-- userbackground -->
     <li>
-        <router-link class="waves-effect" to="/"><i class="material-icons">home</i> Inicio</router-link>
+        <a @click="close" class="waves-effect"><i class="material-icons">home</i> Inicio</a>
     </li>
     <li>
         <div class="divider"></div>
@@ -33,16 +33,16 @@
                             </router-link>
                         </li>
                         <li>
-                            <a>
+                            <router-link class="waves-effect" to="/pesquisa/unidade-medida">
                                 <i class="material-icons">settings_ethernet</i>
                                 Unidades de medida
-                            </a>
+                            </router-link>
                         </li>
                         <li>
-                            <a href="">
+                            <router-link class="waves-effect" to="/pesquisa/grupo">
                                 <i class="material-icons">group_work</i>
                                 Grupos de itens
-                            </a>
+                            </router-link>
                         </li>
                     </ul>
                 </div>
@@ -76,8 +76,9 @@ export default {
         }
     },
     methods: {
-        to(rota) {
-            this.$router.push(rota);
+        close() {
+            $('.sidenav').sidenav('close');
+            (this.$route.path != '/') && this.$router.push('/');
         }
     },
     created() {
@@ -91,10 +92,14 @@ export default {
         $(document).ready(function() {
             $('.sidenav').sidenav();
             $('.collapsible').collapsible();
-            $('select').not('.disabled').formSelect();
+            $('select').formSelect();
             $('.tabs').tabs();
             $('.tooltipped').tooltip();
             M.updateTextFields();
+
+            // overlay bug e scroll
+            $('div.sidenav-overlay').remove();
+            $('html').css('overflow', 'auto');
 
             $('table').addClass('responsive-table centered');
 
@@ -106,7 +111,7 @@ export default {
 
             $('#search').on('keyup', function() {
                 var value = $(this).val().toLowerCase();
-                $('#tbl tr').filter(function() {
+                $('table tr').filter(function() {
                     $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
                 });
             });

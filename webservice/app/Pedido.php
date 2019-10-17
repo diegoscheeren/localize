@@ -26,4 +26,9 @@ class Pedido extends Model
     {
         return $this->belongsTo(User::class, 'garcom');
     }
+
+    public function itens()
+    {
+        return $this->belongsToMany(Item::class, 'pedidos_itens', 'id', 'id');
+    }
 }

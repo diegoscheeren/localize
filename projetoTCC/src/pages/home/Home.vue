@@ -1,40 +1,22 @@
 <template>
     <site-template>
-
         <span slot="principal">
-            <!-- <publicar-conteudo-vue/>
-            <card-conteudo-vue
-                perfil="https://materializecss.com/images/yuna.jpg"
-                nome="Diego"
-                data="01/01/2019 12:30">
-
-                <card-detalhe-vue
-                    img="https://materializecss.com/images/sample-1.jpg"
-                    titulo="Main publication"
-                    txt="txt exemplo">
-                </card-detalhe-vue>
-
-            </card-conteudo-vue> -->
+            <h1 class="center">Bem vindo, {{this.usuario.name}}!</h1>
         </span>
-
     </site-template>
 </template>
 
 <script>
-import GridVue from '@/components/layouts/GridVue'
 import SiteTemplate from '@/templates/SiteTemplate'
 import CardDetalheVue from '@/components/localize/CardDetalheVue'
 import CardConteudoVue from '@/components/localize/CardConteudoVue'
-import PublicarConteudoVue from '@/components/localize/PublicarConteudoVue'
 
 export default {
     name: 'Home',
     components: {
-        GridVue,
         SiteTemplate,
         CardDetalheVue,
         CardConteudoVue,
-        PublicarConteudoVue
     },
     data () {
         return {

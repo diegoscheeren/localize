@@ -3,16 +3,11 @@
         <div class="card">
             <div class="card-content">
                 <div class="row valign-wrapper">
-                    <grid-vue tamanho="1">
-                        <img :src="perfil" alt="nome"
-                            class="circle responsive-img">
-                    </grid-vue>
-                    <grid-vue tamanho="11">
-                        <span class="black-text">
-                            <strong>{{nome}}</strong> - <small>{{data}}</small>
-
-                        </span>
-                    </grid-vue>
+                    <img :src="perfil" alt="nome"
+                        class="circle responsive-img">
+                    <span class="black-text">
+                        <strong>{{nome}}</strong> - <small>{{data}}</small>
+                    </span>
                 </div>
 
                 <slot></slot>
@@ -29,7 +24,6 @@
 </template>
 
 <script>
-import GridVue from '@/components/layouts/GridVue'
 export default {
     name: 'CardConteudoVue',
     props: ['perfil', 'nome', 'data'],
@@ -39,7 +33,6 @@ export default {
         }
     },
     components: {
-        GridVue
     }
 }
 </script>

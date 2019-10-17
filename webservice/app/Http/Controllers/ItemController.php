@@ -11,7 +11,11 @@ class ItemController extends Controller
 {
     public function pesquisar()
     {
-        return ['msg' => 'Pesquisa realizada com sucesso', 'status' => true, 'data' => Item::all()];
+        return [
+            'msg' => 'Pesquisa realizada com sucesso',
+            'status' => true,
+            'data' => Item::with('unidadeMedida', 'itemGrupo')->get()
+        ];
     }
 
     public function salvar(Request $req)

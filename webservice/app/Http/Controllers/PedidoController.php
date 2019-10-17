@@ -6,13 +6,23 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Pedido;
+use App\PedidoItem;
 
-class ClienteController extends Controller
+class PedidoController extends Controller
 {
     public function pesquisar()
     {
-        return 'ok';
-        return ['msg' => 'Pesquisa realizada com sucesso', 'status' => true, 'data' => Pedido::all()];
+        $status = [0 => 'Em Aberto', 1 => 'Parcialmente Pago', 2 => 'Integralmente Pago'];
+
+        $pedidos = Pedido::with('pedidoCliente', 'pedidoGarcom')->get();
+        foreach ($pedidos as $pedido) {
+            $pedido['status'] = [
+                'id' => $pedido['status'],
+                'descricao' => $status[$pedido['status']]
+            ];
+        }
+
+        return ['msg' => 'Pesquisa realizada com sucesso', 'status' => true, 'data' => $pedidos];
     }
 
     public function salvar(Request $req)
@@ -20,11 +30,25 @@ class ClienteController extends Controller
         $dados = $req->all();
         unset($dados['id']);
 
-        $reg = Pedido::create($dados);
+        $resp = [];
+        $success = true;
+        $itens = $dados['itens'];
+        $pedido = Pedido::create($dados);
 
-        $resp = $reg->exists
-            ? ['msg' => 'Cadastrado com sucesso', 'status' => true]
-            : ['msg' => 'Erro ao salvar', 'status' => false];
+        if ($pedido->exists) {
+            foreach ($itens as $item) {
+                $success = PedidoItem::create([
+                    'pedido' => $pedido->id,
+                    'item' => $item['id'],
+                    'quantidade' => $item['quantidade']
+                ]) ? $success : false;
+            }
+            $resp = $success
+                ? ['msg' => 'Cadastrado com sucesso', 'status' => true]
+                : ['msg' => 'Erro ao salvar itens no pedido', 'status' => false];
+        } else {
+            $resp = ['msg' => 'Erro ao criar pedido', 'status' => false];
+        }
 
         return $resp;
     }

@@ -10,9 +10,11 @@ import VModal from 'vue-js-modal'
 Vue.use(Vuex)
 Vue.use(VModal)
 
+// axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+
 Vue.config.productionTip = false
 Vue.prototype.$http = axios
-Vue.prototype.$urlAPI = 'http://127.0.0.1:8000/api/'
+Vue.prototype.$urlAPI = `http://${window.location.hostname}:8000/api/`
 
 var store = {
     state: {

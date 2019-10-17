@@ -49,6 +49,27 @@ $app = require_once __DIR__.'/../bootstrap/app.php';
 |
 */
 
+if (false) {
+
+    $server = &$_SERVER;
+
+    // var_dump($server);exit;
+
+    // Allow from any origin
+    if (isset($server['HTTP_ORIGIN'])) {
+        header("Access-Control-Allow-Origin: *");
+        header('Access-Control-Allow-Credentials: true');
+    }
+
+    // Access-Control headers are received during OPTIONS requests
+    if ($server['REQUEST_METHOD'] == 'OPTIONS') {
+        isset($server['HTTP_ACCESS_CONTROL_REQUEST_METHOD']) && header("Access-Control-Allow-Methods: *");
+        isset($server['HTTP_ACCESS_CONTROL_REQUEST_HEADERS'])
+            && header("Access-Control-Allow-Headers: *");
+        exit(0);
+    }
+}
+
 $kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
 
 $response = $kernel->handle(

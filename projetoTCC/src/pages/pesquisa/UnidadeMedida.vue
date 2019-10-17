@@ -1,33 +1,25 @@
 <template>
     <site-template>
         <span slot="principal">
-            <h4 class="center">Pesquisa de Item</h4>
+            <h4 class="center">Pesquisa de Unidades de Medida</h4>
             <div class="row">
                 <input id="search" type="text" placeholder="Pesquisar...">
-            </div>
-            <div class="row">
+                </div>
+                <div class="row">
                 <table class="responsive-table centered">
                     <thead>
                     <tr>
-                        <th>Código</th>
+                        <th>Abreviação</th>
                         <th>Descrição</th>
-                        <th>Grupo</th>
-                        <th>Un. Medida</th>
-                        <th>Custo</th>
-                        <th>Preço</th>
-                        <th>Estoque</th>
+                        <th>Quantidade</th>
                         <th>Ações</th>
                     </tr>
                     </thead>
                     <tbody id="tbl">
                         <tr v-for="dado in dados" :key="dado.id">
-                            <td>{{dado.codigo}}</td>
+                            <td>{{dado.abreviacao}}</td>
                             <td>{{dado.descricao}}</td>
-                            <td>{{dado.item_grupo.descricao}}</td>
-                            <td>{{dado.unidade_medida.abreviacao}}</td>
-                            <td>{{dado.valor_custo}}</td>
-                            <td>{{dado.valor_venda}}</td>
-                            <td>{{dado.estoque}}</td>
+                            <td>{{dado.quantidade}}</td>
                             <td>
                                 <button class="btn deep-orange tooltipped" @click="editar(dado)"
                                     data-tooltip="Editar" data-position="bottom" title="Editar">
@@ -41,20 +33,19 @@
                         </tr>
                     </tbody>
                 </table>
-            </div>
-            <div class="row">
-                <router-link class="btn blue" to="/cadastro/item">Adicionar</router-link>
+                </div>
+                <div class="row">
+                <router-link class="btn blue" to="/cadastro/unidade-medida">Adicionar</router-link>
             </div>
         </span>
     </site-template>
-
 </template>
 
 <script>
 import SiteTemplate from '@/templates/SiteTemplate'
 
 export default {
-    name: 'PesquisaItem',
+    name: 'PesquisaUnidadeMedida',
     data () {
         return {
             dados: {}
@@ -68,7 +59,7 @@ export default {
     },
     methods: {
         excluir(id) {
-            this.$http.delete(this.$urlAPI + 'item', {data: {id: id}})
+            this.$http.delete(this.$urlAPI + 'unidade-medida', {data: {id: id}})
                 .then(resp => {
                      M.toast({
                         html: resp.data.msg,
@@ -80,10 +71,10 @@ export default {
         },
         editar(row) {
             this.$store.commit('setData', row);
-            this.$router.push('/cadastro/item');
+            this.$router.push('/cadastro/unidade-medida');
         },
         consultar() {
-            this.$http.get(this.$urlAPI + 'item')
+            this.$http.get(this.$urlAPI + 'unidade-medida')
                 .then(resp => {
                     this.dados = resp.data.data;
                     M.toast({

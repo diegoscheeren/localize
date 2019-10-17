@@ -3,9 +3,9 @@
         <a href="#" data-target="slide-out" class="sidenav-trigger show-on-large left-align">
             <i class="material-icons">menu</i>
         </a>
-        <div class="nav-wrapper container center">
-            <router-link class="brand-logo" :to="url || '/'">{{logo || 'Localize LC'}}</router-link>
-            <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <div class="nav-wrapper center">
+            <a @click="close" style="cursor:pointer" class="brand-logo center">{{logo || 'Localize'}}</a>
+            <ul id="nav-mobile" class="right"> <!--hide-on-med-and-down-->
                 <slot/>
             </ul>
         </div>
@@ -18,7 +18,12 @@ export default {
     props: ['logo', 'url', 'cor'],
     data () {
         return {
-
+        }
+    },
+    methods: {
+        close() {
+            $('.sidenav').sidenav('close');
+            (this.$route.path != '/') && this.$router.push('/');
         }
     }
 }
