@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\DB;
 use App\Http\Requests;
 use App\Pedido;
 use App\PedidoItem;
@@ -55,28 +56,60 @@ class PedidoController extends Controller
 
     public function atualizar(Request $req)
     {
+        $resp = [];
+        $success = true;
         $dados = $req->all();
+        $itens = $dados['itens'];
 
-        $reg = Pedido::find($dados['id'])->update($dados);
+        $pedido = Pedido::find($dados['id'])->update($dados);
 
-        $resp = $reg
-            ? ['msg' => 'Editado com sucesso', 'type' => 'green']
-            : ['msg' => 'Erro ao editar', 'type' => 'red'];
-
-        $resp = $reg
-            ? ['msg' => 'Editado com sucesso', 'status' => true]
-            : ['msg' => 'Erro ao editar', 'status' => false];
+        if ($pedido) {
+            PedidoItem::where('pedido', '=', $dados['id'])->delete();
+            foreach ($itens as $item) {
+                $success = PedidoItem::create([
+                    'pedido' => $dados['id'],
+                    'item' => $item['id'],
+                    'quantidade' => $item['quantidade']
+                ]) ? $success : false;
+            }
+            $resp = $success
+                ? ['msg' => 'Atualizado com sucesso', 'status' => true]
+                : ['msg' => 'Erro ao atualizar itens no pedido', 'status' => false];
+        } else {
+            $resp = ['msg' => 'Erro ao atualizar pedido', 'status' => false];
+        }
 
         return $resp;
     }
 
     public function deletar(Request $request)
     {
-        $reg = Pedido::find($request->id)->delete();
+        if (Pedido::find($request->id)->delete()) {
+            PedidoItem::where('pedido', '=', $request->id)->delete();
+            $resp = ['msg' => 'Excluido com sucesso', 'status' => true];
+        } else {
+            $resp = ['msg' => 'Erro ao excluir pedido', 'status' => false];
+        }
 
-        $resp = $reg
-            ? ['msg' => 'Excluido com sucesso', 'status' => true]
-            : ['msg' => 'Erro ao excluir', 'status' => false];
+        return $resp;
+    }
+
+    public function itensByPedido(Request $request)
+    {
+        $dados = $request->all();
+
+        $itens = DB::select(
+            "SELECT i.id, i.descricao, ig.descricao grupo, pdi.quantidade, i.valor_venda, i.estoque
+            from pedidos_itens pdi
+            left join itens i on (pdi.item = i.id)
+            left join itens_grupos ig on (i.grupo = ig.id)
+            left join pedidos p on (pdi.pedido = p.id)
+            where pdi.pedido={$dados['id']}"
+        );
+
+        $resp = $itens
+            ? ['msg' => 'Itens carregados com sucesso', 'status' => true, 'data' => $itens]
+            : ['msg' => 'Erro ao buscar itens', 'status' => false];
 
         return $resp;
     }

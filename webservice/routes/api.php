@@ -23,6 +23,12 @@ Route::middleware('auth:api')->put('/perfil', ['as' => 'perfil', 'uses' => 'Auth
 
 Route::post('/cadastro', ['as' => 'cadastro', 'uses' => 'AuthController@cadastrar']);
 
+//_______________________________ Usuario ____________________________________________//
+Route::get('/usuario', ['as' => 'pesquisar.usuario', 'uses' => 'UsuarioController@pesquisar']);
+Route::put('/usuario', ['as' => 'atualizar.usuario', 'uses' => 'UsuarioController@atualizar']);
+Route::post('/usuario', ['as' => 'cadastrar.usuario', 'uses' => 'UsuarioController@salvar']);
+Route::delete('/usuario', ['as' => 'deletar.usuario', 'uses' => 'UsuarioController@deletar']);
+
 //_______________________________ Item ____________________________________________//
 Route::get('/item', ['as' => 'pesquisar.item', 'uses' => 'ItemController@pesquisar']);
 Route::put('/item', ['as' => 'atualizar.item', 'uses' => 'ItemController@atualizar']);
@@ -36,6 +42,7 @@ Route::post('/cliente', ['as' => 'cadastrar.cliente', 'uses' => 'ClienteControll
 Route::delete('/cliente', ['as' => 'deletar.cliente', 'uses' => 'ClienteController@deletar']);
 
 //_______________________________ Pedido ____________________________________________//
+Route::put('/itens-by-pedido', ['as' => 'itens-by-pedido.item', 'uses' => 'PedidoController@itensByPedido']);
 Route::get('/pedido', ['as' => 'pesquisar.pedido', 'uses' => 'PedidoController@pesquisar']);
 Route::put('/pedido', ['as' => 'atualizar.pedido', 'uses' => 'PedidoController@atualizar']);
 Route::post('/pedido', ['as' => 'cadastrar.pedido', 'uses' => 'PedidoController@salvar']);

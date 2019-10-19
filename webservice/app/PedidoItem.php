@@ -21,8 +21,8 @@ class PedidoItem extends Model
     //     return $this->belongsTo(Pedido::class, 'pedido');
     // }
 
-    // public function item()
-    // {
-    //     return $this->belongsTo(Item::class, 'item');
-    // }
+    public function item()
+    {
+        return $this->belongsTo(Item::class, 'item');
+    }
 }
