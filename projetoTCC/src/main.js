@@ -10,6 +10,12 @@ import VModal from 'vue-js-modal'
 Vue.use(Vuex)
 Vue.use(VModal)
 
+Vue.directive('focus', {
+    inserted: function (el) {
+        el.focus()
+    }
+})
+
 // axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 
 Vue.config.productionTip = false

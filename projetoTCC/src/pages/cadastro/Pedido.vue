@@ -81,7 +81,10 @@
                                             data-tooltip="Editar" data-position="bottom">
                                             <i class="material-icons">add</i>
                                         </a>
-                                        <a class="btn-floating red tooltipped" @click="subtrair(itemPedido, true)"
+                                        <a class="btn-floating red tooltipped"
+                                            @click="(itemPedido.quantidade > 1)
+                                                ? subtrair(itemPedido, true)
+                                                : removerItemDoPedido(itemPedido)"
                                             data-tooltip="Editar" data-position="bottom">
                                             <i class="material-icons">remove</i>
                                         </a>
@@ -130,7 +133,7 @@
                                 <tr v-for="item in itensPesquisa.filter(i => i.show)" :key="item.id">
                                     <td>
                                         <label>
-                                            <input @change="calcTotal" type="checkbox" v-model="item.check"
+                                            <input @change="calcTotalItem" type="checkbox" v-model="item.check"
                                                 class="filled-in"/>
                                             <span></span>
                                         </label>
@@ -245,6 +248,8 @@ export default {
             dados.status = $('#status').val() || 0;
             dados.cliente = $('#cliente').val() || 1;
 
+            console.log(dados);
+
             if (this.id) {
                 this.$http.put(this.$urlAPI + 'pedido', dados)
                     .then(resp => {
@@ -358,6 +363,7 @@ export default {
             this.itensPedido = this.itensPedido.concat(JSON.parse(JSON.stringify(add)));
 
             this.checked_valor_total = 0;
+            this.calcTotalGeral();
             this.hide();
         },
         removerItemDoPedido(item) {
@@ -376,6 +382,7 @@ export default {
                     return i;
                 }
             })
+            this.calcTotalGeral();
         },
         checkAll(e) {
             this.itensPesquisa = this.itensPesquisa.map(i => {
@@ -399,7 +406,7 @@ export default {
                     classes: 'red darken-1'
                 });
             }
-            this.calcTotal();
+            this.calcTotalItem();
         },
         subtrair(item, fromPedido = false) {
             fromPedido && this.itensPesquisa.map(i => {
@@ -413,18 +420,28 @@ export default {
             if (item.quantidade == 0) {
                 item.check = false;
             }
-            this.calcTotal();
+            this.calcTotalItem();
         },
-        calcTotal() {
+        calcTotalItem() {
             this.checked_valor_total = 0;
             for (let item of this.itensPesquisa) {
                 this.checked_valor_total += item.check ? (item.quantidade * item.valor_venda) : 0;
             }
+            this.calcTotalGeral();
+        },
+        calcTotalGeral() {
+            let total = 0;
+            this.itensPedido.forEach(i => {
+                total += i.quantidade * i.valor_venda;
+            })
+            this.valor_total = total;
+            M.updateTextFields();
         },
         setItensPedido(id) {
             this.$http.put(this.$urlAPI + 'itens-by-pedido', {id: id})
                 .then(resp => {
                     this.itensPedido = resp.data.data;
+                    this.calcTotalGeral();
                 })
                 .catch(e => {
                     M.toast({

@@ -14,6 +14,7 @@ class Pedido extends Model
         'status',
         'garcom',
         'cliente',
+        'valor_total',
         'quantidade_pessoas'
     ];
 

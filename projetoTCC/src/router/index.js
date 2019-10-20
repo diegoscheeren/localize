@@ -9,6 +9,8 @@ import Usuario from '@/pages/cadastro/Usuario'
 import Cliente from '@/pages/cadastro/Cliente'
 import PesquisaItem from '@/pages/pesquisa/Item'
 import ItemGrupo from '@/pages/cadastro/ItemGrupo'
+import PesquisaComanda from '@/pages/venda/Comanda'
+import Finalizar from '@/pages/venda/Finalizar'
 import PesquisaPedido from '@/pages/pesquisa/Pedido'
 import PesquisaUsuario from '@/pages/pesquisa/Usuario'
 import PesquisaCliente from '@/pages/pesquisa/Cliente'
@@ -95,6 +97,16 @@ export default new Router({
             path: '/cadastro/usuario',
             name: 'Usuario',
             component: Usuario
+        },
+        {
+            path: '/venda/comanda',
+            name: 'Comanda',
+            component: PesquisaComanda
+        },
+        {
+            path: '/venda/finalizar',
+            name: 'Finalizar',
+            component: Finalizar
         },
         {
             path: '*',

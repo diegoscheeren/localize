@@ -1,18 +1,17 @@
 <template>
     <site-template>
         <span slot="principal">
-            <h4 class="center">Pesquisa de Comandas</h4>
+            <h4 class="center">Finalizar Comandas</h4>
             <div class="row">
                 <input id="search" type="text" placeholder="Pesquisar...">
-                </div>
-                <div class="row">
-                <table class="responsive-table centered">
+            </div>
+            <div class="row">
+                <table class="responsive-table centered" v-if="!load">
                     <thead>
                     <tr>
                         <th>Pedido</th>
                         <th>Cliente</th>
                         <th>Garçom</th>
-                        <th>Pessoas</th>
                         <th>Mesa</th>
                         <th>Total</th>
                         <th>Status</th>
@@ -24,41 +23,49 @@
                             <td>{{dado.id}}</td>
                             <td>{{dado.pedido_cliente.nome}}</td>
                             <td>{{dado.pedido_garcom.name || ''}}</td>
-                            <td>{{dado.quantidade_pessoas}}</td>
                             <td>{{dado.mesa}}</td>
                             <td>{{dado.valor_total}}</td>
                             <td>{{dado.status.descricao}}</td>
                             <td>
-                                <button class="btn deep-orange tooltipped" @click="editar(dado)"
-                                    data-tooltip="Editar">
-                                    <i class="material-icons">edit</i>
-                                </button>
-                                <button class="btn red tooltipped" @click="excluir(dado.id)"
-                                    data-tooltip="Excluir">
-                                    <i class="material-icons">delete</i>
-                                </button>
+                                <router-link class="btn red tooltipped waves-effect" to="/venda/finalizar"
+                                    data-tooltip="Finalizar" @click="finalizar(dado)">Finalizar
+                                </router-link>
+                                <!-- <button class="btn red tooltipped" @click=""
+                                    data-tooltip="Finalizar">Finalizar
+                                </button> -->
                             </td>
                         </tr>
                     </tbody>
                 </table>
+                <div class="row center" v-if="load">
+                    <div class="preloader-wrapper big active">
+                        <div class="spinner-layer spinner-blue">
+                            <div class="circle-clipper left">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="gap-patch">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="circle-clipper right">
+                                <div class="circle"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="row">
-                <router-link class="btn blue" to="/cadastro/pedido">Novo</router-link>
             </div>
-
         </span>
     </site-template>
-
 </template>
 
 <script>
 import SiteTemplate from '@/templates/SiteTemplate'
 
 export default {
-    name: 'PesquisaPedido',
+    name: 'PesquisaComanda',
     data () {
         return {
-            dados: {}
+            dados: {},
+            load: true
         }
     },
     components: {
@@ -68,18 +75,7 @@ export default {
         this.consultar();
     },
     methods: {
-        excluir(id) {
-            this.$http.delete(this.$urlAPI + 'pedido', {data: {id: id}})
-                .then(resp => {
-                     M.toast({
-                        html: resp.data.msg,
-                        displayLength: 5000,
-                        classes: ((resp.data.status == true) ? 'green darken-1' : 'red darken-1')
-                    });
-                    this.consultar();
-                })
-        },
-        editar(row) {
+        finalizar(row) {
             this.$store.commit('setData', row);
             this.$router.push('/cadastro/pedido');
         },
@@ -87,6 +83,8 @@ export default {
             this.$http.get(this.$urlAPI + 'pedido')
                 .then(resp => {
                     this.dados = resp.data.data;
+                    this.load = false;
+                    // this.load = false;
                     // M.toast({
                     //     html: resp.data.msg,
                     //     displayLength: 5000,
