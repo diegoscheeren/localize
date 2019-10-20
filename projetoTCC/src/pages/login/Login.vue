@@ -2,7 +2,7 @@
     <login-template>
             <span slot="principal">
             <h2>Login</h2>
-            <div class="row" style="margin-bottom: -20px;">
+            <div class="row" style="margin-bottom: -10px;">
                 <div class="input-field inline">
                     <input id="email" type="email" class="validate" v-model="email">
                     <label for="email">E-Mail</label>
@@ -16,7 +16,6 @@
                 </div>
             </div>
             <button class="btn" @click="login()">Entrar</button>
-            <router-link class="btn orange" to="/registro">Cadastre-se</router-link>
         </span>
   </login-template>
 </template>
@@ -28,7 +27,7 @@ export default {
     name: 'Login',
     data () {
         return {
-            email: 'diego@gmail.com',
+            email: 'dscheeren23@gmail.com',
             password: '12345678'
         }
     },

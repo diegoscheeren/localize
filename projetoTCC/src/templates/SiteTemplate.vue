@@ -1,7 +1,7 @@
 <template>
   <span>
     <header style="position: fixed; top: 0; width: 100%; z-index: 1;">
-      <nav-bar logo="Localize" url="/" cor="grey darken-4">
+      <nav-bar :user="usuario" logo="Localize" url="/" cor="grey darken-4">
         <li v-if="!usuario"><router-link to="/login">Entrar</router-link></li>
         <li v-if="usuario"><router-link to="/perfil">{{usuario.name}}</router-link></li>
         <li v-if="usuario"><a v-on:click="sair()">Sair</a></li>

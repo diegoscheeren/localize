@@ -1,7 +1,7 @@
 <template>
     <site-template>
         <span slot="principal">
-            <h4 class="center">Pesquisa de Grupos de Itens</h4>
+            <h4 class="center">Pesquisa de Usuários</h4>
             <div class="row">
                 <input id="search" type="text" placeholder="Pesquisar...">
                 </div>
@@ -9,18 +9,23 @@
                 <table class="responsive-table centered">
                     <thead>
                     <tr>
-                        <th>Descrição</th>
+                        <th>Nome</th>
+                        <th>Email</th>
+                        <th>Admin</th>
                         <th>Ações</th>
                     </tr>
                     </thead>
                     <tbody id="tbl">
                         <tr v-for="dado in dados" :key="dado.id">
-                            <td>{{dado.descricao}}</td>
+                            <td>{{dado.name}}</td>
+                            <td>{{dado.email}}</td>
+                            <td v-if="dado.is_admin"><i class="material-icons">check</i></td>
+                            <td v-if="!dado.is_admin"><i class="material-icons">clear</i></td>
                             <td>
-                                <button class="btn deep-orange tooltipped" @click="editar(dado)"
+                                <!-- <button class="btn deep-orange tooltipped" @click="editar(dado)"
                                     data-tooltip="Editar" data-position="bottom" title="Editar">
                                     <i class="material-icons">edit</i>
-                                </button>
+                                </button> -->
                                 <button class="btn red tooltipped" @click="excluir(dado.id)"
                                     data-tooltip="Excluir" data-position="bottom" title="Excluir">
                                     <i class="material-icons">delete</i>
@@ -31,7 +36,7 @@
                 </table>
                 </div>
                 <div class="row">
-                <router-link class="btn blue" to="/cadastro/grupo">Novo</router-link>
+                <router-link class="btn blue" to="/cadastro/usuario">Novo</router-link>
             </div>
         </span>
     </site-template>
@@ -41,7 +46,7 @@
 import SiteTemplate from '@/templates/SiteTemplate'
 
 export default {
-    name: 'PesquisaItemGrupo',
+    name: 'PesquisaUsuario',
     data () {
         return {
             dados: {}
@@ -55,7 +60,7 @@ export default {
     },
     methods: {
         excluir(id) {
-            this.$http.delete(this.$urlAPI + 'grupo', {data: {id: id}})
+            this.$http.delete(this.$urlAPI + 'usuario', {data: {id: id}})
                 .then(resp => {
                      M.toast({
                         html: resp.data.msg,
@@ -67,10 +72,10 @@ export default {
         },
         editar(row) {
             this.$store.commit('setData', row);
-            this.$router.push('/cadastro/grupo');
+            this.$router.push('/cadastro/usuario');
         },
         consultar() {
-            this.$http.get(this.$urlAPI + 'grupo')
+            this.$http.get(this.$urlAPI + 'usuario')
                 .then(resp => {
                     this.dados = resp.data.data;
                     // M.toast({

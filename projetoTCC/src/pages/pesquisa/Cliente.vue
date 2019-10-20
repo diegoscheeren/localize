@@ -14,11 +14,8 @@
                         <th>Nome</th>
                         <th>CPF</th>
                         <th>RG</th>
-                        <th>Dt Nasc</th>
-                        <th>E-Mail</th>
                         <th>Telefone</th>
                         <th>Município</th>
-                        <th>UF</th>
                         <th>Endereço</th>
                         <th>Bairro</th>
                         <th>Número</th>
@@ -31,11 +28,8 @@
                             <td>{{dado.nome}}</td>
                             <td>{{dado.cpf}}</td>
                             <td>{{dado.rg}}</td>
-                            <td>{{dado.data_nascimento}}</td>
-                            <td>{{dado.email}}</td>
                             <td>{{dado.telefone}}</td>
                             <td>{{dado.municipio}}</td>
-                            <td>{{dado.uf}}</td>
                             <td>{{dado.endereco}}</td>
                             <td>{{dado.bairro}}</td>
                             <td>{{dado.numero}}</td>
@@ -55,7 +49,7 @@
                 </table>
                 </div>
                 <div class="row">
-                <router-link class="btn blue" to="/cadastro/cliente">Adicionar</router-link>
+                <router-link class="btn blue" to="/cadastro/cliente">Novo</router-link>
             </div>
 
         </span>
@@ -93,17 +87,16 @@ export default {
         },
         editar(row) {
             this.$store.commit('setData', row);
-            // console.log(row);
             this.$router.push('/cadastro/cliente');
         },
         consultar() {
             this.$http.get(this.$urlAPI + 'cliente')
                 .then(resp => {
                     this.dados = resp.data.data;
-                    M.toast({
-                        html: resp.data.msg,
-                        displayLength: 5000,
-                        classes: ((resp.data.status == true) ? 'green darken-1' : 'red darken-1')});
+                    // M.toast({
+                    //     html: resp.data.msg,
+                    //     displayLength: 5000,
+                    //     classes: ((resp.data.status == true) ? 'green darken-1' : 'red darken-1')});
                 })
                 .catch(e => {
                     M.toast({

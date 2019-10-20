@@ -1,7 +1,7 @@
 <template>
     <site-template>
         <span slot="principal">
-            <h4 class="center">Pesquisa de Pedidos</h4>
+            <h4 class="center">Pesquisa de Comandas</h4>
             <div class="row">
                 <input id="search" type="text" placeholder="Pesquisar...">
                 </div>
@@ -9,7 +9,7 @@
                 <table class="responsive-table centered">
                     <thead>
                     <tr>
-                        <th>ID</th>
+                        <th>Pedido</th>
                         <th>Cliente</th>
                         <th>Garçom</th>
                         <th>Pessoas</th>
@@ -23,7 +23,7 @@
                         <tr v-for="dado in dados" :key="dado.id">
                             <td>{{dado.id}}</td>
                             <td>{{dado.pedido_cliente.nome}}</td>
-                            <td>{{dado.pedido_garcom.name}}</td>
+                            <td>{{dado.pedido_garcom.name || ''}}</td>
                             <td>{{dado.quantidade_pessoas}}</td>
                             <td>{{dado.mesa}}</td>
                             <td>{{dado.valor_total}}</td>
@@ -43,7 +43,7 @@
                 </table>
                 </div>
                 <div class="row">
-                <router-link class="btn blue" to="/cadastro/pedido">Adicionar</router-link>
+                <router-link class="btn blue" to="/cadastro/pedido">Novo</router-link>
             </div>
 
         </span>
@@ -87,10 +87,10 @@ export default {
             this.$http.get(this.$urlAPI + 'pedido')
                 .then(resp => {
                     this.dados = resp.data.data;
-                    M.toast({
-                        html: resp.data.msg,
-                        displayLength: 5000,
-                        classes: ((resp.data.status == true) ? 'green darken-1' : 'red darken-1')});
+                    // M.toast({
+                    //     html: resp.data.msg,
+                    //     displayLength: 5000,
+                    //     classes: ((resp.data.status == true) ? 'green darken-1' : 'red darken-1')});
                 })
                 .catch(e => {
                     M.toast({

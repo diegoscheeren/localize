@@ -1,12 +1,20 @@
 <template>
-   <ul id="slide-out" class="sidenav"><!--fixed-->
-    <!-- userbackground -->
-  <li><div class="user-view">
-      <div class="background" style="background: linear-gradient(90deg, rgba(22,22,23,1) 22%, rgba(95,96,96,1) 83%);"></div>
-      <a href="#user"><img :src="usuario.imagem" class="circle responsive-img"></a>
-      <a href="#name"><span class="white-text name" style="font-size: 15px">{{usuario.name}}</span></a>
-      <a href="#email"><span class="white-text email" style="font-size: 15px">{{usuario.email}}</span></a>
-    </div></li>
+    <ul id="slide-out" class="sidenav"><!--fixed-->
+        <!-- userbackground -->
+    <li>
+        <div class="user-view">
+            <div class="background"
+                style="background: linear-gradient(90deg, rgba(22,22,23,1) 22%, rgba(95,96,96,1) 83%);">
+            </div>
+            <a href="#user">
+                <img :src="(usuario.imagem === 'http://localhost:8000/')
+                    ? 'http://localhost:8000/perfis/perfil_default/default.png' : usuario.imagem"
+                    class="circle responsive-img">
+            </a>
+            <a href="#name"><span class="white-text name" style="font-size: 15px">{{usuario.name}}</span></a>
+            <a href="#email"><span class="white-text email" style="font-size: 15px">{{usuario.email}}</span></a>
+        </div>
+    </li>
     <!-- userbackground -->
     <li>
         <a @click="close" class="waves-effect"><i class="material-icons">home</i> Inicio</a>
@@ -53,15 +61,29 @@
     <li class="no-padding">
         <router-link class="waves-effect" to="/pesquisa/pedido">
             <i class="material-icons">note_add</i>
-            Pedidos
+            Comandas
         </router-link>
     </li>
     <li><div class="divider"></div></li>
     <li class="no-padding">
-        <a class="waves-effect" href="">
+        <router-link class="waves-effect" to="/venda/comanda">
+            <i class="material-icons">monetization_on</i>
+            Vendas
+        </router-link>
+    </li>
+    <li><div class="divider"></div></li>
+    <li class="no-padding">
+        <router-link class="waves-effect" to="/venda/comanda">
+            <i class="material-icons">apps</i>
+            Estoque
+        </router-link>
+    </li>
+    <li><div class="divider"></div></li>
+    <li class="no-padding">
+        <router-link class="waves-effect" to="/pesquisa/usuario">
             <i class="material-icons">group</i>
             Usuários
-        </a>
+        </router-link>
     </li>
  </ul>
 </template>
@@ -97,17 +119,15 @@ export default {
             $('.tooltipped').tooltip();
             M.updateTextFields();
 
+            $('select').on('contentChanged', function() {
+                $(this).formSelect();
+            });
+
             // overlay bug e scroll
             $('div.sidenav-overlay').remove();
             $('html').css('overflow', 'auto');
 
             $('table').addClass('responsive-table centered');
-
-            // $(window).on('resize', function () {
-            //     var $grid = $('#grid'),
-            //         newWidth = $grid.closest('.ui-jqgrid').parent().width();
-            //     $grid.jqGrid('setGridWidth', newWidth, true);
-            // });
 
             $('#search').on('keyup', function() {
                 var value = $(this).val().toLowerCase();

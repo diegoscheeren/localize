@@ -35,7 +35,7 @@
                 </table>
                 </div>
                 <div class="row">
-                <router-link class="btn blue" to="/cadastro/unidade-medida">Adicionar</router-link>
+                <router-link class="btn blue" to="/cadastro/unidade-medida">Novo</router-link>
             </div>
         </span>
     </site-template>
@@ -77,10 +77,10 @@ export default {
             this.$http.get(this.$urlAPI + 'unidade-medida')
                 .then(resp => {
                     this.dados = resp.data.data;
-                    M.toast({
-                        html: resp.data.msg,
-                        displayLength: 5000,
-                        classes: ((resp.data.status == true) ? 'green darken-1' : 'red darken-1')});
+                    // M.toast({
+                    //     html: resp.data.msg,
+                    //     displayLength: 5000,
+                    //     classes: ((resp.data.status == true) ? 'green darken-1' : 'red darken-1')});
                 })
                 .catch(e => {
                     M.toast({

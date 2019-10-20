@@ -1,7 +1,5 @@
 <template>
-
     <site-template>
-
         <span slot="principal">
             <h4 class="center" v-if="!this.isEdit">Cadastro de Clientes</h4>
             <h4 class="center" v-if="this.isEdit">Edição de Cliente</h4>
@@ -25,7 +23,8 @@
 
                     <div class="input-field">
                         <label>CPF</label>
-                        <input type="text" name="cpf" v-model="cpf">
+                        <input @keypress="maskCPF(cpf)" type="text" name="cpf"
+                             v-model="cpf" maxlength="14">
                     </div>
 
                     <div class="input-field">
@@ -40,9 +39,38 @@
                 </div>
 
                 <div id="2" class="col s12">
-                <div class="input-field">
+                    <div class="input-field">
+                        <select name="estado" v-model="estado">
+                            <option value="" disabled selected>Selecione um estado...</option>
+                            <option value="AC">Acre</option>
+                            <option value="AL">Alagoas</option>
+                            <option value="AP">Amapá</option>
+                            <option value="AM">Amazonas</option>
+                            <option value="BA">Bahia</option>
+                            <option value="CE">Ceará</option>
+                            <option value="DF">Distrito Federal</option>
+                            <option value="ES">Espírito Santo</option>
+                            <option value="GO">Goiás</option>
+                            <option value="MA">Maranhão</option>
+                            <option value="MT">Mato Grosso</option>
+                            <option value="MS">Mato Grosso do Sul</option>
+                            <option value="MG">Minas Gerais</option>
+                            <option value="PA">Pará</option>
+                            <option value="PB">Paraíba</option>
+                            <option value="PR">Paraná</option>
+                            <option value="PE">Pernambuco</option>
+                            <option value="PI">Piauí</option>
+                            <option value="RJ">Rio de Janeiro</option>
+                            <option value="RN">Rio Grande do Norte</option>
+                            <option value="RS">Rio Grande do Sul</option>
+                            <option value="RO">Rondônia</option>
+                            <option value="RR">Roraima</option>
+                            <option value="SC">Santa Catarina</option>
+                            <option value="SP">São Paulo</option>
+                            <option value="SE">Sergipe</option>
+                            <option value="TO">Tocantins</option>
+                        </select>
                         <label>Estado</label>
-                        <input type="text" name="estado" v-model="estado">
                     </div>
 
                     <div class="input-field">
@@ -88,8 +116,6 @@
             <router-link class="btn deep-orange right" to="/pesquisa/cliente">Voltar</router-link>
         </span>
     </site-template>
-
-
 </template>
 
 <script>
@@ -193,6 +219,13 @@ export default {
                         classes: 'red darken-1'
                     });
                 })
+        },
+        maskCPF(cpf) {
+            cpf = cpf.toString().replace(/\D/g, '')
+            cpf = cpf.toString().replace(/(\d{3})(\d)/,"$1.$2")
+            cpf = cpf.toString().replace(/(\d{3})(\d)/,"$1.$2")
+            cpf = cpf.toString().replace(/(\d{3})(\d{1,2})$/,"$1-$2")
+            this.cpf = cpf;
         }
     }
 }

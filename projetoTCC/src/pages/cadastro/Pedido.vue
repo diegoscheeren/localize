@@ -1,8 +1,8 @@
 <template>
     <site-template>
         <span slot="principal">
-            <h4 class="center" v-if="!this.isEdit">Novo Pedido</h4>
-            <h4 class="center" v-if="this.isEdit">Edição de Pedido</h4>
+            <h4 class="center" v-if="!this.isEdit">Nova Comanda</h4>
+            <h4 class="center" v-if="this.isEdit">Edição de Comanda</h4>
             <form name="form" enctype="multipart/form-data">
                 <div class="row">
                     <div class="col s12">
@@ -27,7 +27,7 @@
                     </div>
 
                     <div class="input-field">
-                        <label>Qtd Pessoas</label>
+                        <label>Quantidade Pessoas</label>
                         <input type="text" name="quantidade_pessoas" v-model="quantidade_pessoas">
                     </div>
 
@@ -52,6 +52,7 @@
                         <table class="responsive-table centered">
                             <thead>
                             <tr>
+                                <th></th>
                                 <th>Descrição</th>
                                 <th>Grupo</th>
                                 <th>Quantidade</th>
@@ -61,21 +62,29 @@
                             </tr>
                             </thead>
                             <tbody id="tbl">
-                                <tr v-for="itemPedido in itensPedido" :key="itemPedido.id">
-                                    <td>{{itemPedido.descricao}}</td>
-                                    <td>{{itemPedido.item_grupo.descricao}}</td>
-                                    <td><b>{{itemPedido.quantidade || 0}}</b></td>
-                                    <td>{{itemPedido.valor_venda}}</td>
-                                    <td>{{itemPedido.total}}</td>
+                                <tr v-for="itemPedido in itensPedido" :key="">
                                     <td>
-                                        <button class="btn deep-orange tooltipped" @click="editar(itemPedido)"
-                                            data-tooltip="Editar" data-position="bottom" title="Editar">
-                                            <i class="material-icons">edit</i>
-                                        </button>
-                                        <button class="btn red tooltipped" @click="excluir(itemPedido.id)"
-                                            data-tooltip="Excluir" data-position="bottom" title="Excluir">
+                                        <a class="btn-floating red tooltipped"
+                                            @click="removerItemDoPedido(itemPedido)"
+                                            data-tooltip="Remover do pedido" data-position="bottom"
+                                            title="Remover do pedido">
                                             <i class="material-icons">delete</i>
-                                        </button>
+                                        </a>
+                                    </td>
+                                    <td>{{itemPedido.descricao}}</td>
+                                    <td>{{itemPedido.item_grupo ? itemPedido.item_grupo.descricao : itemPedido.grupo}}</td>
+                                    <td><b>{{itemPedido.quantidade}}</b></td>
+                                    <td>{{itemPedido.valor_venda}}</td>
+                                    <td>{{itemPedido.quantidade * itemPedido.valor_venda}}</td>
+                                    <td>
+                                        <a class="btn-floating green tooltipped" @click="somar(itemPedido, true)"
+                                            data-tooltip="Editar" data-position="bottom">
+                                            <i class="material-icons">add</i>
+                                        </a>
+                                        <a class="btn-floating red tooltipped" @click="subtrair(itemPedido, true)"
+                                            data-tooltip="Editar" data-position="bottom">
+                                            <i class="material-icons">remove</i>
+                                        </a>
                                     </td>
                                 </tr>
                             </tbody>
@@ -92,11 +101,14 @@
 
            <modal name="pesquisa-itens" width="85%" height="95%">
                 <div class="container">
-                    <h5 class="center">Adicionar Itens</h5>
+                    <div class="row">
+                        <h5 class="col s8">Adicionar Itens ao pedido</h5>
+                        <h5 class="col s4" v-if="checked_valor_total !== 0">Total: R$ {{checked_valor_total}}</h5>
+                    </div>
                     <div class="row">
                         <input @keyup="filtrarItens" id="search" type="text" placeholder="Pesquisar...">
                     </div>
-                    <div class="row" style="height: 390px; overflow: auto">
+                    <div class="row" style="height: 380px; overflow: auto">
                         <table class="responsive-table centered">
                             <thead>
                                 <tr>
@@ -109,6 +121,7 @@
                                     <th>Descrição</th>
                                     <th>Quantidade</th>
                                     <th>Preço</th>
+                                    <th>Total R$</th>
                                     <th>Estoque</th>
                                     <th>Ações</th>
                                 </tr>
@@ -117,22 +130,24 @@
                                 <tr v-for="item in itensPesquisa.filter(i => i.show)" :key="item.id">
                                     <td>
                                         <label>
-                                            <input type="checkbox" class="filled-in" v-model="item.check"/>
+                                            <input @change="calcTotal" type="checkbox" v-model="item.check"
+                                                class="filled-in"/>
                                             <span></span>
                                         </label>
                                     </td>
                                     <td>{{item.descricao}}</td>
                                     <td><b>{{item.quantidade || 0}}</b></td>
                                     <td>{{item.valor_venda}}</td>
+                                    <td><b>{{item.quantidade * item.valor_venda}}</b></td>
                                     <td>{{item.estoque}}</td>
                                     <td>
-                                        <button class="btn-floating green tooltipped" @click="editar(item)"
+                                        <button class="btn-floating green tooltipped" @click="somar(item)"
                                             data-tooltip="Editar" data-position="bottom" title="+">
-                                            +
+                                            <i class="material-icons">add</i>
                                         </button>
-                                        <button class="btn-floating red tooltipped" @click="excluir(item.id)"
+                                        <button class="btn-floating red tooltipped" @click="subtrair(item)"
                                             data-tooltip="Excluir" data-position="bottom" title="-">
-                                            -
+                                            <i class="material-icons">remove</i>
                                         </button>
                                     </td>
                                 </tr>
@@ -164,12 +179,13 @@ export default {
             garcom: '',
             status: '',
             cliente: '',
-            valor_total: '',
-            quantidade_pessoas: '',
+            valor_total: 0,
+            quantidade_pessoas: 1,
             itensPesquisa: [],
             itensPedido: [],
             isEdit: false,
-            check:true
+            check: true,
+            checked_valor_total: 0
         }
     },
     components: {
@@ -177,9 +193,9 @@ export default {
     },
     created() {
         let dados = this.$store.getters.getData;
-        this.isEdit = !jQuery.isEmptyObject(this.$store.getters.getData);
+        this.isEdit = !jQuery.isEmptyObject(dados);
 
-        if (!jQuery.isEmptyObject(dados)) {
+        if (this.isEdit) {
             this.id = dados.id;
             this.mesa = dados.mesa;
             this.garcom = dados.garcom;
@@ -187,6 +203,8 @@ export default {
             this.cliente = dados.cliente;
             this.valor_total = dados.valor_total;
             this.quantidade_pessoas = dados.quantidade_pessoas;
+
+            this.setItensPedido(dados.id);
 
             this.$store.commit('setData', {});
         }
@@ -199,9 +217,12 @@ export default {
     methods: {
         show() {
             // Não está limpando os checkboxes apos adicionar um item
-            for (let i in this.itensPesquisa) {
-                this.itensPesquisa[i]['check'] = false;
-            }
+            this.itensPesquisa = this.itensPesquisa.map(i => {
+                i.check = false;
+                i.quantidade = 0;
+                return i
+            });
+
             this.$modal.show('pesquisa-itens');
         },
         hide() {
@@ -218,11 +239,11 @@ export default {
                 quantidade_pessoas: this.quantidade_pessoas,
                 itens: this.itensPedido
             };
-            console.log(this.itensPedido)
 
-            dados.garcom = $('#garcom').val();
-            dados.status = $('#status').val();
-            dados.cliente = $('#cliente').val();
+            let garcom = this.$store.getters.getUsuario;
+            dados.garcom = $('#garcom').val() || garcom.id;
+            dados.status = $('#status').val() || 0;
+            dados.cliente = $('#cliente').val() || 1;
 
             if (this.id) {
                 this.$http.put(this.$urlAPI + 'pedido', dados)
@@ -330,35 +351,94 @@ export default {
                 })
         },
         addItensNoPedido() {
-            for (let item of this.itensPesquisa) {
-                item.check && this.itensPedido.push(item);
-            }
+            var add = [];
+            add = this.itensPesquisa.filter(i => {
+                return i.check && i;
+            });
+            this.itensPedido = this.itensPedido.concat(JSON.parse(JSON.stringify(add)));
+
+            this.checked_valor_total = 0;
             this.hide();
-            // console.log(this.itensPedido)
+        },
+        removerItemDoPedido(item) {
+            let voltaEstoque = {id: '', quantidade: 0};
+            this.itensPedido = this.itensPedido.filter(i => {
+                if (i.id !== item.id) {
+                    return i;
+                }
+                voltaEstoque.id = item.id;
+                voltaEstoque.quantidade = item.quantidade;
+            });
+
+            this.itensPesquisa.map(i => {
+                if (i.id == voltaEstoque.id) {
+                    i.estoque += voltaEstoque.quantidade;
+                    return i;
+                }
+            })
         },
         checkAll(e) {
             this.itensPesquisa = this.itensPesquisa.map(i => {
                 i.check = e.target.checked;
                 return i;
             });
+        },
+        somar(item, fromPedido = false) {
+            fromPedido && this.itensPesquisa.map(i => {
+                (item.id === i.id && i.estoque > 0) && i.estoque--;
+            })
+
+            if (item.estoque > 0) {
+                item.check = true;
+                item.quantidade++
+                item.estoque--
+            } else {
+                M.toast({
+                    html: 'Item sem estoque',
+                    displayLength: 5000,
+                    classes: 'red darken-1'
+                });
+            }
+            this.calcTotal();
+        },
+        subtrair(item, fromPedido = false) {
+            fromPedido && this.itensPesquisa.map(i => {
+                (item.id === i.id && item.quantidade > 0) && i.estoque++;
+            })
+
+            if (item.quantidade > 0) {
+                item.quantidade--
+                item.estoque++
+            }
+            if (item.quantidade == 0) {
+                item.check = false;
+            }
+            this.calcTotal();
+        },
+        calcTotal() {
+            this.checked_valor_total = 0;
+            for (let item of this.itensPesquisa) {
+                this.checked_valor_total += item.check ? (item.quantidade * item.valor_venda) : 0;
+            }
+        },
+        setItensPedido(id) {
+            this.$http.put(this.$urlAPI + 'itens-by-pedido', {id: id})
+                .then(resp => {
+                    this.itensPedido = resp.data.data;
+                })
+                .catch(e => {
+                    M.toast({
+                        html: 'Erro ao carregar itens do pedido',
+                        displayLength: 5000,
+                        classes: 'red darken-1'
+                    });
+                })
         }
     }
 }
 </script>
 
 <style scoped>
-/* EXEMPLO DE FILTRO */
-
-/* computed: {
-    items () {
-        return this.keyword
-            ? this.dataArray.filter(item =>
-                item.firstname.includes(this.keyword) ||
-                item.lastname.includes(this.keyword) || i
-                tem.email.includes(this.keyword))
-            : this.dataArray
-    }
-} */
 </style>
 
 

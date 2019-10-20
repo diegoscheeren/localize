@@ -5,11 +5,12 @@ import Login from '@/pages/login/Login'
 import Item from '@/pages/cadastro/Item'
 import Perfil from '@/pages/perfil/Perfil'
 import Pedido from '@/pages/cadastro/Pedido'
+import Usuario from '@/pages/cadastro/Usuario'
 import Cliente from '@/pages/cadastro/Cliente'
-import Registro from '@/pages/registro/Registro'
 import PesquisaItem from '@/pages/pesquisa/Item'
 import ItemGrupo from '@/pages/cadastro/ItemGrupo'
 import PesquisaPedido from '@/pages/pesquisa/Pedido'
+import PesquisaUsuario from '@/pages/pesquisa/Usuario'
 import PesquisaCliente from '@/pages/pesquisa/Cliente'
 import UnidadeMedida from '@/pages/cadastro/UnidadeMedida'
 import PesquisaItemGrupo from '@/pages/pesquisa/ItemGrupo'
@@ -29,11 +30,6 @@ export default new Router({
             path: '/login',
             name: 'Login',
             component: Login
-        },
-        {
-            path: '/registro',
-            name: 'Registro',
-            component: Registro
         },
         {
             path: '/perfil',
@@ -89,6 +85,16 @@ export default new Router({
             path: '/cadastro/grupo',
             name: 'ItemGrupo',
             component: ItemGrupo
+        },
+        {
+            path: '/pesquisa/usuario',
+            name: 'PesquisaUsuario',
+            component: PesquisaUsuario
+        },
+        {
+            path: '/cadastro/usuario',
+            name: 'Usuario',
+            component: Usuario
         },
         {
             path: '*',
