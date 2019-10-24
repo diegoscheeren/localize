@@ -42,7 +42,8 @@ Route::post('/cliente', ['as' => 'cadastrar.cliente', 'uses' => 'ClienteControll
 Route::delete('/cliente', ['as' => 'deletar.cliente', 'uses' => 'ClienteController@deletar']);
 
 //_______________________________ Pedido ____________________________________________//
-Route::put('/itens-by-pedido', ['as' => 'itens-by-pedido.item', 'uses' => 'PedidoController@itensByPedido']);
+Route::put('/itens-by-pedido', ['as' => 'itens-by-pedido.pedido', 'uses' => 'PedidoController@itensByPedido']);
+Route::post('/finalizar-pedido', ['as' => 'finalizar-pedido.item', 'uses' => 'PedidoController@finalizar']);
 Route::get('/pedido', ['as' => 'pesquisar.pedido', 'uses' => 'PedidoController@pesquisar']);
 Route::put('/pedido', ['as' => 'atualizar.pedido', 'uses' => 'PedidoController@atualizar']);
 Route::post('/pedido', ['as' => 'cadastrar.pedido', 'uses' => 'PedidoController@salvar']);

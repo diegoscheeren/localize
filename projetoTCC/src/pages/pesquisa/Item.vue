@@ -6,7 +6,7 @@
                 <input id="search" type="text" placeholder="Pesquisar...">
             </div>
             <div class="row">
-                <table class="responsive-table centered">
+                <table class="responsive-table centered" v-if="!load">
                     <thead>
                     <tr>
                         <th>Código</th>
@@ -41,13 +41,27 @@
                         </tr>
                     </tbody>
                 </table>
+                <div class="row center" v-if="load">
+                    <div class="preloader-wrapper big active">
+                        <div class="spinner-layer spinner-blue-only">
+                            <div class="circle-clipper left">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="gap-patch">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="circle-clipper right">
+                                <div class="circle"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="row">
                 <router-link class="btn blue" to="/cadastro/item">Novo</router-link>
             </div>
         </span>
     </site-template>
-
 </template>
 
 <script>
@@ -57,7 +71,8 @@ export default {
     name: 'PesquisaItem',
     data () {
         return {
-            dados: {}
+            dados: {},
+            load: true
         }
     },
     components: {
@@ -86,6 +101,7 @@ export default {
             this.$http.get(this.$urlAPI + 'item')
                 .then(resp => {
                     this.dados = resp.data.data;
+                    this.load = false;
                     // M.toast({
                     //     html: resp.data.msg,
                     //     displayLength: 5000,

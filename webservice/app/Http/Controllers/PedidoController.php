@@ -11,17 +11,11 @@ use App\PedidoItem;
 
 class PedidoController extends Controller
 {
-    public function pesquisar()
+    public function pesquisar(Request $req)
     {
-        $status = [0 => 'Em Aberto', 1 => 'Parcialmente Pago', 2 => 'Integralmente Pago'];
-
-        $pedidos = Pedido::with('pedidoCliente', 'pedidoGarcom')->get();
-        foreach ($pedidos as $pedido) {
-            $pedido['status'] = [
-                'id' => $pedido['status'],
-                'descricao' => $status[$pedido['status']]
-            ];
-        }
+        return $req->filter;//
+        $pedidos = Pedido::with('pedidoCliente', 'pedidoGarcom')
+            ->where('finalizado', '=', 'false')->get();
 
         return ['msg' => 'Pesquisa realizada com sucesso', 'status' => true, 'data' => $pedidos];
     }
@@ -110,6 +104,20 @@ class PedidoController extends Controller
         $resp = $itens
             ? ['msg' => 'Itens carregados com sucesso', 'status' => true, 'data' => $itens]
             : ['msg' => 'Erro ao buscar itens', 'status' => false];
+
+        return $resp;
+    }
+
+    public function finalizar(Request $request)
+    {
+        $dados = $request->all();
+        $dados['finalizado'] = true;
+
+        $pedido = Pedido::find($dados['pedido'])->update($dados);
+
+        $resp = $pedido
+            ? ['msg' => 'Finalizado com sucesso', 'status' => true]
+            : ['msg' => 'Erro ao finalizar pedido', 'status' => false];
 
         return $resp;
     }

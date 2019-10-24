@@ -3,10 +3,20 @@
         <span slot="principal">
             <h4 class="center">Pesquisa de Comandas</h4>
             <div class="row">
-                <input id="search" type="text" placeholder="Pesquisar...">
+                <div class="col s1" style="margin-top: 20px;"
+                    title="Com esta opção marcada somente serão listadas comandas FINALIZADAS">
+                    <label>
+                        <input @change="consultar" type="checkbox" class="filled-in"
+                            v-model="somenteFinalizados"/>
+                        <span></span>
+                    </label>
                 </div>
-                <div class="row">
-                <table class="responsive-table centered">
+                <div class="col s11">
+                    <input id="search" type="text" placeholder="Pesquisar...">
+                </div>
+            </div>
+            <div class="row">
+                <table class="responsive-table centered" v-if="!load">
                     <thead>
                     <tr>
                         <th>Pedido</th>
@@ -15,7 +25,6 @@
                         <th>Pessoas</th>
                         <th>Mesa</th>
                         <th>Total</th>
-                        <th>Status</th>
                         <th>Ações</th>
                     </tr>
                     </thead>
@@ -27,7 +36,6 @@
                             <td>{{dado.quantidade_pessoas}}</td>
                             <td>{{dado.mesa}}</td>
                             <td>{{dado.valor_total}}</td>
-                            <td>{{dado.status.descricao}}</td>
                             <td>
                                 <button class="btn deep-orange tooltipped" @click="editar(dado)"
                                     data-tooltip="Editar">
@@ -41,14 +49,27 @@
                         </tr>
                     </tbody>
                 </table>
+                <div class="row center" v-if="load">
+                    <div class="preloader-wrapper big active">
+                        <div class="spinner-layer spinner-blue-only">
+                            <div class="circle-clipper left">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="gap-patch">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="circle-clipper right">
+                                <div class="circle"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="row">
+            </div>
+            <div class="row">
                 <router-link class="btn blue" to="/cadastro/pedido">Novo</router-link>
             </div>
-
         </span>
     </site-template>
-
 </template>
 
 <script>
@@ -58,7 +79,9 @@ export default {
     name: 'PesquisaPedido',
     data () {
         return {
-            dados: {}
+            dados: {},
+            load: true,
+            somenteFinalizados: true
         }
     },
     components: {
@@ -84,9 +107,10 @@ export default {
             this.$router.push('/cadastro/pedido');
         },
         consultar() {
-            this.$http.get(this.$urlAPI + 'pedido')
+            this.$http.get(this.$urlAPI + 'pedido', {params: {filter: this.somenteFinalizados}})
                 .then(resp => {
                     this.dados = resp.data.data;
+                    this.load = false;
                     // M.toast({
                     //     html: resp.data.msg,
                     //     displayLength: 5000,

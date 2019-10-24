@@ -37,11 +37,6 @@
                     </div>
 
                     <div class="input-field">
-                        <select name="status" id="status" v-model="status"/>
-                        <label>Status</label>
-                    </div>
-
-                    <div class="input-field">
                         <select name="garcom" id="garcom" v-model="garcom"/>
                         <label>Garçom</label>
                     </div>
@@ -49,7 +44,7 @@
 
                 <div id="2" class="col s12">
                     <div class="row">
-                        <table class="responsive-table centered">
+                        <table class="responsive-table centered" v-if="!load">
                             <thead>
                             <tr>
                                 <th></th>
@@ -92,6 +87,21 @@
                                 </tr>
                             </tbody>
                         </table>
+                        <div class="row center" v-if="load">
+                            <div class="preloader-wrapper big active">
+                                <div class="spinner-layer spinner-blue-only">
+                                    <div class="circle-clipper left">
+                                        <div class="circle"></div>
+                                    </div>
+                                    <div class="gap-patch">
+                                        <div class="circle"></div>
+                                    </div>
+                                    <div class="circle-clipper right">
+                                        <div class="circle"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="row right">
                         <a class="btn-floating btn-large waves-effect waves-light blue tooltipped" @click="show()"
@@ -124,7 +134,7 @@
                                     <th>Descrição</th>
                                     <th>Quantidade</th>
                                     <th>Preço</th>
-                                    <th>Total R$</th>
+                                    <th>Total</th>
                                     <th>Estoque</th>
                                     <th>Ações</th>
                                 </tr>
@@ -180,13 +190,13 @@ export default {
             id: '',
             mesa: '',
             garcom: '',
-            status: '',
             cliente: '',
             valor_total: 0,
             quantidade_pessoas: 1,
             itensPesquisa: [],
             itensPedido: [],
             isEdit: false,
+            load: true,
             check: true,
             checked_valor_total: 0
         }
@@ -202,7 +212,6 @@ export default {
             this.id = dados.id;
             this.mesa = dados.mesa;
             this.garcom = dados.garcom;
-            this.status = dados.status;
             this.cliente = dados.cliente;
             this.valor_total = dados.valor_total;
             this.quantidade_pessoas = dados.quantidade_pessoas;
@@ -210,10 +219,11 @@ export default {
             this.setItensPedido(dados.id);
 
             this.$store.commit('setData', {});
+        } else {
+            this.load = false;
         }
 
         this.setGarcom();
-        this.setStatus();
         this.setClientes();
         this.setItensPesquisa();
     },
@@ -236,7 +246,6 @@ export default {
                 id: this.id,
                 mesa: this.mesa,
                 garcom: this.garcom,
-                status: this.status,
                 cliente: this.cliente,
                 valor_total: this.valor_total,
                 quantidade_pessoas: this.quantidade_pessoas,
@@ -245,10 +254,7 @@ export default {
 
             let garcom = this.$store.getters.getUsuario;
             dados.garcom = $('#garcom').val() || garcom.id;
-            dados.status = $('#status').val() || 0;
             dados.cliente = $('#cliente').val() || 1;
-
-            console.log(dados);
 
             if (this.id) {
                 this.$http.put(this.$urlAPI + 'pedido', dados)
@@ -312,20 +318,6 @@ export default {
                     });
                 });
         },
-        setStatus() {
-            this.$http.get(this.$urlAPI + 'status')
-                .then(resp => {
-                    let dados = resp.data.data;
-                    dados.forEach(d => $('#status').append(new Option(d.descricao, d.id, false, (d.id == this.cliente))));
-                    $('select').formSelect();
-                }).catch(e => {
-                    M.toast({
-                        html: 'Erro ao buscar status, tente novamente',
-                        displayLength: 5000,
-                        classes: 'red darken-1'
-                    });
-                });
-        },
         filtrarItens(e) {
             const cols = ['descricao', 'quantidade', 'valor_venda', 'estoque'];
             const value = e.target.value.toLowerCase();
@@ -346,6 +338,7 @@ export default {
                         i.quantidade = 0;
                         return i;
                     });
+                    this.load = false;
                 })
                 .catch(e => {
                     M.toast({

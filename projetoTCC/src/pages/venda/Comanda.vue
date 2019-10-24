@@ -14,7 +14,6 @@
                         <th>Garçom</th>
                         <th>Mesa</th>
                         <th>Total</th>
-                        <th>Status</th>
                         <th>Ações</th>
                     </tr>
                     </thead>
@@ -25,21 +24,17 @@
                             <td>{{dado.pedido_garcom.name || ''}}</td>
                             <td>{{dado.mesa}}</td>
                             <td>{{dado.valor_total}}</td>
-                            <td>{{dado.status.descricao}}</td>
                             <td>
-                                <router-link class="btn red tooltipped waves-effect" to="/venda/finalizar"
-                                    data-tooltip="Finalizar" @click="finalizar(dado)">Finalizar
-                                </router-link>
-                                <!-- <button class="btn red tooltipped" @click=""
+                                <a class="btn red tooltipped waves-effect" @click="finalizar(dado)"
                                     data-tooltip="Finalizar">Finalizar
-                                </button> -->
+                                </a>
                             </td>
                         </tr>
                     </tbody>
                 </table>
                 <div class="row center" v-if="load">
                     <div class="preloader-wrapper big active">
-                        <div class="spinner-layer spinner-blue">
+                        <div class="spinner-layer spinner-blue-only">
                             <div class="circle-clipper left">
                                 <div class="circle"></div>
                             </div>
@@ -77,7 +72,7 @@ export default {
     methods: {
         finalizar(row) {
             this.$store.commit('setData', row);
-            this.$router.push('/cadastro/pedido');
+            this.$router.push('/venda/finalizar');
         },
         consultar() {
             this.$http.get(this.$urlAPI + 'pedido')

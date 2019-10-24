@@ -15,7 +15,6 @@ Vue.directive('focus', {
         el.focus()
     }
 })
-
 // axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 
 Vue.config.productionTip = false

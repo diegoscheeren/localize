@@ -1,7 +1,7 @@
 <template>
     <site-template>
         <span slot="principal">
-            <h4 class="center" v-if="!this.isEdit">Finalizar Comanda Nº</h4>
+            <h5 class="center">Pagamento Comanda Nº {{this.pedido}}</h5>
             <form name="form" enctype="multipart/form-data">
                 <div class="card col s7">
                     <table class="responsive-table centered">
@@ -14,18 +14,33 @@
                             <th>Total</th>
                         </tr>
                         </thead>
-                        <tbody id="tbl">
-                            <!-- <tr v-for="itemPedido in itensPedido" :key="">
+                        <tbody id="tbl" v-if="!load">
+                            <tr v-for="itemPedido in itensPedido" :key="">
                                 <td>{{itemPedido.descricao}}</td>
                                 <td>{{itemPedido.item_grupo ? itemPedido.item_grupo.descricao : itemPedido.grupo}}</td>
                                 <td><b>{{itemPedido.quantidade}}</b></td>
                                 <td>{{itemPedido.valor_venda}}</td>
                                 <td>{{itemPedido.quantidade * itemPedido.valor_venda}}</td>
-                            </tr> -->
+                            </tr>
                         </tbody>
                     </table>
-                    <div class="card-content">
-                        Total a pagar: R$ 0,00
+                    <div class="row center" v-if="load">
+                        <div class="preloader-wrapper big active">
+                            <div class="spinner-layer spinner-blue-only">
+                                <div class="circle-clipper left">
+                                    <div class="circle"></div>
+                                </div>
+                                <div class="gap-patch">
+                                    <div class="circle"></div>
+                                </div>
+                                <div class="circle-clipper right">
+                                    <div class="circle"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-content right" style="color: black;">
+                        <b>Total a pagar: R$ {{this.valor_total}}</b>
                     </div>
                     <div class="input-field">
                         <router-link class="btn deep-orange" to="/venda/comanda">Voltar</router-link>
@@ -48,11 +63,11 @@
                             <label>Valor Pago</label>
                         </div>
                         <div class="input-field">
-                            <input disabled type="text" v-model="valor_troco">
+                            <input disabled type="text" v-model="valor_troco" style="color: black;">
                             <label>Troco</label>
                         </div>
                         <div class="input-field">
-                            <input type="text" v-model="cliente">
+                            <input disabled type="text" v-model="cliente" style="color: black;">
                             <label>Cliente</label>
                         </div>
                         <div class="input-field">
@@ -65,7 +80,8 @@
                             <label>Forma de Pagamento</label>
                         </div>
                         <div class="input-field center">
-                            <a class="waves-effect waves-light green accent-3 btn-large">Finalizar</a>
+                            <a class="waves-effect waves-light green accent-3 btn-large"
+                                @click="finalizar">Finalizar</a>
                         </div>
                     </div>
                 </div>
@@ -84,8 +100,11 @@ export default {
             valor_total: 50,
             valor_pago: '',
             valor_troco: 0,
+            pedido: '',
             cliente: ' ',
-            isEdit: {}
+            itensPedido: [],
+            isEdit: {},
+            load: true
         }
     },
     components: {
@@ -93,53 +112,27 @@ export default {
     },
     created() {
         let dados = this.$store.getters.getData;
-        this.isEdit = !jQuery.isEmptyObject(dados);
+        this.isData = !jQuery.isEmptyObject(dados);
 
-        if (this.isEdit) {
-
+        if (this.isData) {
+            console.log(dados);
+            this.valor_total = dados.valor_total;
+            this.cliente = dados.pedido_cliente.nome;
+            this.pedido = dados.id;
+            this.setItensPedido(dados.id);
             this.$store.commit('setData', {});
         }
-
     },
     methods: {
-        cadastro() {
-            let dados = {};
-
-            let garcom = this.$store.getters.getUsuario;
-
-            if (this.id) {
-                this.$http.put(this.$urlAPI + 'pedido', dados)
-                    .then(resp => {
-                        M.toast({
-                            html: resp.data.msg,
-                            displayLength: 5000,
-                            classes: ((resp.data.status == true) ? 'green darken-1' : 'red darken-1')
-                        });
-                        this.$router.push('/pesquisa/pedido');
-                    })
-                    .catch(e => {
-                        M.toast({
-                            html: 'Erro ao editar, verifique os dados',
-                            displayLength: 5000,
-                            classes: 'red darken-1'
-                        });
-                    })
-
-                return;
-            }
-
-            this.$http.post(this.$urlAPI + 'pedido', dados)
+        setItensPedido(id) {
+            this.$http.put(this.$urlAPI + 'itens-by-pedido', {id: id})
                 .then(resp => {
-                    M.toast({
-                        html: resp.data.msg,
-                        displayLength: 5000,
-                        classes: ((resp.data.status == true) ? 'green darken-1' : 'red darken-1')
-                    });
-                    this.$router.push('/pesquisa/pedido');
+                    this.itensPedido = resp.data.data;
+                    this.load = false;
                 })
                 .catch(e => {
                     M.toast({
-                        html: 'Erro ao salvar, verifique os dados',
+                        html: 'Erro ao carregar itens do pedido',
                         displayLength: 5000,
                         classes: 'red darken-1'
                     });
@@ -147,11 +140,29 @@ export default {
         },
         calcTroco() {
             this.valor_troco = (this.valor_pago - this.valor_total).toFixed(2);
+        },
+        finalizar() {
+            let dados = {pedido: this.pedido};
+             this.$http.post(this.$urlAPI + 'finalizar-pedido', dados)
+                .then(resp => {
+                    M.toast({
+                        html: resp.data.msg,
+                        displayLength: 5000,
+                        classes: ((resp.data.status == true) ? 'green darken-1' : 'red darken-1')});
+
+                    (resp.data.status == true) && this.$router.push('/venda/comanda')
+                })
+                .catch(e => {
+                    M.toast({
+                        html: 'Erro ao finalizar pedido',
+                        displayLength: 5000,
+                        classes: 'red darken-1'
+                    });
+                })
         }
     }
 }
 </script>
 
 <style scoped>
-
 </style>

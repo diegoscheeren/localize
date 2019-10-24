@@ -6,7 +6,7 @@
                 <input id="search" type="text" placeholder="Pesquisar...">
                 </div>
                 <div class="row">
-                <table class="responsive-table centered">
+                <table class="responsive-table centered" v-if="!load">
                     <thead>
                     <tr>
                         <th>Abreviação</th>
@@ -33,6 +33,21 @@
                         </tr>
                     </tbody>
                 </table>
+                <div class="row center" v-if="load">
+                    <div class="preloader-wrapper big active">
+                        <div class="spinner-layer spinner-blue-only">
+                            <div class="circle-clipper left">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="gap-patch">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="circle-clipper right">
+                                <div class="circle"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 </div>
                 <div class="row">
                 <router-link class="btn blue" to="/cadastro/unidade-medida">Novo</router-link>
@@ -48,7 +63,8 @@ export default {
     name: 'PesquisaUnidadeMedida',
     data () {
         return {
-            dados: {}
+            dados: {},
+            load: true
         }
     },
     components: {
@@ -77,6 +93,7 @@ export default {
             this.$http.get(this.$urlAPI + 'unidade-medida')
                 .then(resp => {
                     this.dados = resp.data.data;
+                    this.load = false;
                     // M.toast({
                     //     html: resp.data.msg,
                     //     displayLength: 5000,

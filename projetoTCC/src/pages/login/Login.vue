@@ -1,23 +1,27 @@
 <template>
     <login-template>
-            <span slot="principal">
-            <h2>Login</h2>
-            <div class="row" style="margin-bottom: -10px;">
-                <div class="input-field inline">
-                    <input id="email" type="email" class="validate" v-model="email">
-                    <label for="email">E-Mail</label>
-                    <span class="helper-text" data-error="E-Mail inválido"></span>
+        <span slot="principal">
+            <div class="card center">
+                <div class="card-content">
+                    <h2>Login</h2>
+                    <div class="row" style="margin-bottom: -10px;">
+                        <div class="input-field inline">
+                            <input id="email" type="email" class="validate" v-model="email">
+                            <label for="email">E-Mail</label>
+                            <span class="helper-text" data-error="E-Mail inválido"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field inline">
+                            <input id="pwd" type="password" v-model="password">
+                            <label for="pwd">Senha</label>
+                        </div>
+                    </div>
+                    <button class="btn" @click="login()">Entrar</button>
                 </div>
             </div>
-            <div class="row">
-                <div class="input-field inline">
-                    <input id="pwd" type="password" v-model="password">
-                    <label for="pwd">Senha</label>
-                </div>
-            </div>
-            <button class="btn" @click="login()">Entrar</button>
         </span>
-  </login-template>
+    </login-template>
 </template>
 
 <script>
@@ -30,6 +34,9 @@ export default {
             email: 'dscheeren23@gmail.com',
             password: '12345678'
         }
+    },
+    created() {
+        M.updateTextFields();
     },
     components: {
         LoginTemplate
@@ -62,10 +69,11 @@ export default {
         }
     }
 }
-M.updateTextFields();
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+.card {
+    width:400px;
+}
 </style>

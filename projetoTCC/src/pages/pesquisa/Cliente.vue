@@ -1,14 +1,12 @@
 <template>
-
     <site-template>
-
         <span slot="principal">
             <h4 class="center">Pesquisa de Clientes</h4>
             <div class="row">
                 <input id="search" type="text" placeholder="Pesquisar...">
-                </div>
-                <div class="row">
-                <table class="responsive-table centered">
+            </div>
+            <div class="row">
+                <table class="responsive-table centered" v-if="!load">
                     <thead>
                     <tr>
                         <th>Nome</th>
@@ -47,14 +45,27 @@
                         </tr>
                     </tbody>
                 </table>
+                <div class="row center" v-if="load">
+                    <div class="preloader-wrapper big active">
+                        <div class="spinner-layer spinner-blue-only">
+                            <div class="circle-clipper left">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="gap-patch">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="circle-clipper right">
+                                <div class="circle"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="row">
+            </div>
+            <div class="row">
                 <router-link class="btn blue" to="/cadastro/cliente">Novo</router-link>
             </div>
-
         </span>
     </site-template>
-
 </template>
 
 <script>
@@ -64,7 +75,8 @@ export default {
     name: 'PesquisaCliente',
     data () {
         return {
-            dados: {}
+            dados: {},
+            load: true
         }
     },
     components: {
@@ -93,6 +105,7 @@ export default {
             this.$http.get(this.$urlAPI + 'cliente')
                 .then(resp => {
                     this.dados = resp.data.data;
+                    this.load = false;
                     // M.toast({
                     //     html: resp.data.msg,
                     //     displayLength: 5000,

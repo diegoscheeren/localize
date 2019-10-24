@@ -11,9 +11,9 @@ class Pedido extends Model
     protected $fillable = [
         'id',
         'mesa',
-        'status',
         'garcom',
         'cliente',
+        'finalizado',
         'valor_total',
         'quantidade_pessoas'
     ];

@@ -2,19 +2,15 @@
   <span>
     <header>
         <nav-bar class="nav-wrapper grey darken-4">
-                <li v-if="!usuario"><router-link to="/login">Entrar</router-link></li>
-                <!-- <li v-if="!usuario"><router-link to="/registro">Cadastre-se</router-link></li> -->
-                <li v-if="usuario"><router-link to="/perfil">{{usuario.name}}</router-link></li>
-                <li v-if="usuario"><a v-on:click="sair()">Sair</a></li>
+            <li v-if="!usuario"><router-link to="/login">Entrar</router-link></li>
+            <li v-if="usuario"><router-link to="/perfil">{{usuario.name}}</router-link></li>
+            <li v-if="usuario"><a v-on:click="sair()">Sair</a></li>
         </nav-bar>
     </header>
-
     <main>
-      <div class="container center">
-        <div class="row">
+        <div class="container center">
             <slot name="principal" />
         </div>
-      </div>
     </main>
 
   </span>
@@ -46,5 +42,4 @@ export default {
 </script>
 
 <style>
-
 </style>
