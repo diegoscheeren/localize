@@ -78,4 +78,23 @@ class ItemController extends Controller
 
         return $resp;
     }
+
+    public function estoqueEntrada(Request $request)
+    {
+        $dados = $request->all();
+
+        $item = Item::find($dados['id']);
+        $item->estoque += $dados['estoque'];
+        $item->valor_custo = $dados['valor_custo'];
+        $item->valor_venda = $dados['valor_venda'];
+        // $item->observacao = $dados['valor_custo'];
+
+        $reg = $item->save();
+
+        $resp = $reg
+            ? ['msg' => 'Entrada de estoque concluida', 'status' => true]
+            : ['msg' => 'Erro na operação', 'status' => false];
+
+        return $resp;
+    }
 }

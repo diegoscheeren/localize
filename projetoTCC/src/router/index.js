@@ -7,13 +7,15 @@ import Perfil from '@/pages/perfil/Perfil'
 import Pedido from '@/pages/cadastro/Pedido'
 import Usuario from '@/pages/cadastro/Usuario'
 import Cliente from '@/pages/cadastro/Cliente'
+import Finalizar from '@/pages/venda/Finalizar'
 import PesquisaItem from '@/pages/pesquisa/Item'
 import ItemGrupo from '@/pages/cadastro/ItemGrupo'
+import PesquisaEstoque from '@/pages/estoque/Item'
 import PesquisaComanda from '@/pages/venda/Comanda'
-import Finalizar from '@/pages/venda/Finalizar'
 import PesquisaPedido from '@/pages/pesquisa/Pedido'
 import PesquisaUsuario from '@/pages/pesquisa/Usuario'
 import PesquisaCliente from '@/pages/pesquisa/Cliente'
+import AcertoEstoque from '@/pages/estoque/AcertoEstoque'
 import UnidadeMedida from '@/pages/cadastro/UnidadeMedida'
 import PesquisaItemGrupo from '@/pages/pesquisa/ItemGrupo'
 import PesquisaUnidadeMedida from '@/pages/pesquisa/UnidadeMedida'
@@ -107,6 +109,16 @@ export default new Router({
             path: '/venda/finalizar',
             name: 'Finalizar',
             component: Finalizar
+        },
+        {
+            path: '/pesquisa/estoque',
+            name: 'PesquisaEstoque',
+            component: PesquisaEstoque
+        },
+        {
+            path: '/estoque/acerto',
+            name: 'AcertoEstoque',
+            component: AcertoEstoque
         },
         {
             path: '*',

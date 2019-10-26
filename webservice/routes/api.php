@@ -61,5 +61,5 @@ Route::put('/grupo', ['as' => 'atualizar.grupo', 'uses' => 'ItemGrupoController@
 Route::post('/grupo', ['as' => 'cadastrar.grupo', 'uses' => 'ItemGrupoController@salvar']);
 Route::delete('/grupo', ['as' => 'deletar.grupo', 'uses' => 'ItemGrupoController@deletar']);
 
-//_______________________________ Pedido Status __________________________________________//
-Route::get('/status', ['as' => 'pesquisar.status', 'uses' => 'PedidoStatusController@pesquisar']);
+//_______________________________ Entrada Estoque __________________________________________//
+Route::post('/estoque', ['as' => 'estoque.entrada', 'uses' => 'ItemController@estoqueEntrada']);

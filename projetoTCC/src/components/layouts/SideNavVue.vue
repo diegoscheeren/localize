@@ -73,7 +73,7 @@
         </li>
         <li><div class="divider"></div></li>
         <li class="no-padding">
-            <router-link class="waves-effect" to="/venda/comanda">
+            <router-link class="waves-effect" to="/pesquisa/estoque">
                 <i class="material-icons">apps</i>
                 Estoque
             </router-link>

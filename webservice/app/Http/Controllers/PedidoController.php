@@ -13,9 +13,13 @@ class PedidoController extends Controller
 {
     public function pesquisar(Request $req)
     {
-        return $req->filter;//
-        $pedidos = Pedido::with('pedidoCliente', 'pedidoGarcom')
-            ->where('finalizado', '=', 'false')->get();
+        $pedidos = null;
+        if ($req->filter != 'false') {
+            $pedidos = Pedido::with('pedidoCliente', 'pedidoGarcom')
+                ->where('finalizado', '=', 'false')->get();
+        } else {
+            $pedidos = Pedido::with('pedidoCliente', 'pedidoGarcom')->get();
+        }
 
         return ['msg' => 'Pesquisa realizada com sucesso', 'status' => true, 'data' => $pedidos];
     }

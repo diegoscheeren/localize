@@ -139,7 +139,8 @@ export default {
                 })
         },
         calcTroco() {
-            this.valor_troco = (this.valor_pago - this.valor_total).toFixed(2);
+            let troco = (this.valor_pago - this.valor_total).toFixed(2);
+            this.valor_troco = (troco >= 0) ? troco : 0;
         },
         finalizar() {
             let dados = {pedido: this.pedido};

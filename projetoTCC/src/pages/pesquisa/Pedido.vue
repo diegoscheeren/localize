@@ -107,6 +107,7 @@ export default {
             this.$router.push('/cadastro/pedido');
         },
         consultar() {
+            this.load = true;
             this.$http.get(this.$urlAPI + 'pedido', {params: {filter: this.somenteFinalizados}})
                 .then(resp => {
                     this.dados = resp.data.data;
