@@ -8,9 +8,7 @@
         </nav-bar>
     </header>
     <main>
-        <div class="container center">
-            <slot name="principal" />
-        </div>
+        <slot name="principal" />
     </main>
 
   </span>

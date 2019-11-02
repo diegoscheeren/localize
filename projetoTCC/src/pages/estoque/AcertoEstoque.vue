@@ -36,7 +36,24 @@
                 </div>
             </form>
 
-            <button class="btn blue darken-1 right" @click="cadastro">Concluir</button>
+            <button :class="'btn blue darken-1 right ' + (btnLoad ? 'disabled' : '')" @click="cadastro()">
+                <div class="row center" v-if="btnLoad">
+                    <div class="preloader-wrapper small active">
+                        <div class="spinner-layer spinner-blue-only">
+                            <div class="circle-clipper left">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="gap-patch">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="circle-clipper right">
+                                <div class="circle"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                Concluir
+            </button>
             <router-link class="btn deep-orange right" to="/pesquisa/estoque">Voltar</router-link>
         </span>
     </site-template>
@@ -57,8 +74,8 @@ export default {
             observacao: '',
             valor_custo: '',
             valor_venda: '',
-            unidade_medida: '',
-            isEdit: false
+            isEdit: false,
+            btnLoad: false
         }
     },
     components: {
@@ -83,6 +100,8 @@ export default {
     },
     methods: {
         cadastro() {
+            this.btnLoad = true;
+
             let dados = {
                 id: this.id,
                 codigo: this.codigo,
@@ -100,6 +119,7 @@ export default {
                         displayLength: 5000,
                         classes: ((resp.data.status == true) ? 'green darken-1' : 'red darken-1')
                     });
+                    this.btnLoad = false;
                     this.$router.push('/pesquisa/estoque');
                 })
                 .catch(e => {
@@ -108,6 +128,7 @@ export default {
                         displayLength: 5000,
                         classes: 'red darken-1'
                     });
+                    this.btnLoad = false;
                 })
         },
     }

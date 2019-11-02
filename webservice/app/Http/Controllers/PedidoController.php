@@ -16,7 +16,7 @@ class PedidoController extends Controller
         $pedidos = null;
         if ($req->filter != 'false') {
             $pedidos = Pedido::with('pedidoCliente', 'pedidoGarcom')
-                ->where('finalizado', '=', 'false')->get();
+                ->where('finalizado', '=', 'false')->orderBy('updated_at', 'desc')->get();
         } else {
             $pedidos = Pedido::with('pedidoCliente', 'pedidoGarcom')->get();
         }

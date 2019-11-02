@@ -16,7 +16,7 @@
                         <th>Custo</th>
                         <th>Preço</th>
                         <th>Estoque</th>
-                        <th>Ações</th>
+                        <th v-if="isAdmin">Ações</th>
                     </tr>
                     </thead>
                     <tbody id="tbl">
@@ -28,7 +28,7 @@
                             <td>{{dado.valor_custo}}</td>
                             <td>{{dado.valor_venda}}</td>
                             <td>{{dado.estoque}}</td>
-                            <td>
+                            <td v-if="isAdmin">
                                 <button class="btn deep-orange tooltipped" @click="editar(dado)"
                                     data-tooltip="Editar" data-position="bottom" title="Editar">
                                     <i class="material-icons">edit</i>
@@ -57,7 +57,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" v-if="isAdmin">
                 <router-link class="btn blue" to="/cadastro/item">Novo</router-link>
             </div>
         </span>
@@ -72,7 +72,8 @@ export default {
     data () {
         return {
             dados: {},
-            load: true
+            load: true,
+            isAdmin: false
         }
     },
     components: {
@@ -80,6 +81,7 @@ export default {
     },
     mounted() {
         this.consultar();
+        this.isAdmin = this.$store.getters.isAdmin;
     },
     methods: {
         excluir(id) {

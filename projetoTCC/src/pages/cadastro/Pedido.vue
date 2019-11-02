@@ -104,8 +104,7 @@
                         </div>
                     </div>
                     <div class="row right">
-                        <a class="btn-floating btn-large waves-effect waves-light blue tooltipped" @click="show()"
-                                data-tooltip="Adicionar Item" data-position="left">
+                        <a class="btn-floating btn-large waves-effect waves-light blue" @click="show()">
                             <i class="material-icons">add</i>
                         </a>
                     </div>
@@ -114,12 +113,15 @@
 
            <modal name="pesquisa-itens" width="85%" height="95%">
                 <div class="container">
-                    <div class="row">
+                    <!-- <div class="row">
                         <h5 class="col s8">Adicionar Itens ao pedido</h5>
                         <h5 class="col s4" v-if="checked_valor_total !== 0">Total: R$ {{checked_valor_total}}</h5>
-                    </div>
+                    </div> -->
                     <div class="row">
-                        <input @keyup="filtrarItens" id="search" type="text" placeholder="Pesquisar...">
+                        <input class="col s6" @keyup="filtrarItens" id="search" type="text" v-model="search"
+                            ref="input" placeholder="Pesquisar...">
+                        <i class="material-icons s1" style="cursor: pointer; margin-top: 15px" @click="clear">clear</i>
+                        <h5 class="col s4 right">R$ {{checked_valor_total}}</h5>
                     </div>
                     <div class="row" style="height: 380px; overflow: auto">
                         <table class="responsive-table centered">
@@ -174,7 +176,24 @@
                 </div>
             </modal>
 
-            <button class="btn blue darken-1 right" @click="cadastro()">Salvar</button>
+            <button :class="'btn blue darken-1 right ' + (btnLoad ? 'disabled' : '')" @click="cadastro()">
+                <div class="row center" v-if="btnLoad">
+                    <div class="preloader-wrapper small active">
+                        <div class="spinner-layer spinner-blue-only">
+                            <div class="circle-clipper left">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="gap-patch">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="circle-clipper right">
+                                <div class="circle"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                Salvar
+            </button>
             <router-link class="btn deep-orange right" to="/pesquisa/pedido">Voltar</router-link>
         </span>
     </site-template>
@@ -190,11 +209,13 @@ export default {
             id: '',
             mesa: '',
             garcom: '',
+            search: '',
             cliente: '',
             valor_total: 0,
             quantidade_pessoas: 1,
             itensPesquisa: [],
             itensPedido: [],
+            btnLoad: false,
             isEdit: false,
             load: true,
             check: true,
@@ -242,6 +263,7 @@ export default {
             this.$modal.hide('pesquisa-itens');
         },
         cadastro() {
+            this.btnLoad = true;
             let dados = {
                 id: this.id,
                 mesa: this.mesa,
@@ -264,16 +286,17 @@ export default {
                             displayLength: 5000,
                             classes: ((resp.data.status == true) ? 'green darken-1' : 'red darken-1')
                         });
+                        this.btnLoad = false;
                         this.$router.push('/pesquisa/pedido');
                     })
                     .catch(e => {
+                        this.btnLoad = false;
                         M.toast({
                             html: 'Erro ao editar, verifique os dados',
                             displayLength: 5000,
                             classes: 'red darken-1'
                         });
                     })
-
                 return;
             }
 
@@ -284,6 +307,7 @@ export default {
                         displayLength: 5000,
                         classes: ((resp.data.status == true) ? 'green darken-1' : 'red darken-1')
                     });
+                    this.btnLoad = false;
                     this.$router.push('/pesquisa/pedido');
                 })
                 .catch(e => {
@@ -292,6 +316,7 @@ export default {
                         displayLength: 5000,
                         classes: 'red darken-1'
                     });
+                    this.btnLoad = false;
                 })
         },
         setGarcom() {
@@ -320,7 +345,7 @@ export default {
         },
         filtrarItens(e) {
             const cols = ['descricao', 'quantidade', 'valor_venda', 'estoque'];
-            const value = e.target.value.toLowerCase();
+            const value = e ? e.target.value.toLowerCase() : '';
 
             this.itensPesquisa = this.itensPesquisa.map(i => {
                 const search = [];
@@ -443,6 +468,14 @@ export default {
                         classes: 'red darken-1'
                     });
                 })
+        },
+        clear() {
+            this.search = '';
+            this.filtrarItens(null);
+            this.$nextTick(() => {
+                this.$refs.input.value = '';
+                this.$refs.input.focus();
+            });
         }
     }
 }

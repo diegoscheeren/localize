@@ -63,3 +63,6 @@ Route::delete('/grupo', ['as' => 'deletar.grupo', 'uses' => 'ItemGrupoController
 
 //_______________________________ Entrada Estoque __________________________________________//
 Route::post('/estoque', ['as' => 'estoque.entrada', 'uses' => 'ItemController@estoqueEntrada']);
+
+//__________________________________ Dashboard __________________________________________//
+Route::get('/dashboard', ['as' => 'dashboard.cards', 'uses' => 'DashboardController@info']);

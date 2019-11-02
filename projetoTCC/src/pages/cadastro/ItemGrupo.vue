@@ -5,14 +5,29 @@
             <h4 class="center" v-if="this.isEdit">Edição de Grupo de Item</h4>
             <form name="form" enctype="multipart/form-data">
                 <input type="hidden" name="id" v-model="id">
-
                 <div class="input-field">
                     <label>Descrição</label>
                     <input type="text" name="descricao" v-model="descricao">
                 </div>
-
             </form>
-            <button class="btn blue darken-1 right" @click="cadastro()">Salvar</button>
+            <button :class="'btn blue darken-1 right ' + (btnLoad ? 'disabled' : '')" @click="cadastro()">
+                <div class="row center" v-if="btnLoad">
+                    <div class="preloader-wrapper small active">
+                        <div class="spinner-layer spinner-blue-only">
+                            <div class="circle-clipper left">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="gap-patch">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="circle-clipper right">
+                                <div class="circle"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                Salvar
+            </button>
             <router-link class="btn deep-orange right" to="/pesquisa/grupo">Voltar</router-link>
         </span>
     </site-template>
@@ -27,7 +42,8 @@ export default {
         return {
             id: '',
             descricao: '',
-            isEdit: false
+            isEdit: false,
+            btnLoad: false
         }
     },
     components: {
@@ -45,6 +61,7 @@ export default {
     },
     methods: {
         cadastro() {
+            this.btnLoad = true;
             let dados = {
                 id: this.id,
                 descricao: this.descricao,
@@ -58,6 +75,7 @@ export default {
                             displayLength: 5000,
                             classes: ((resp.data.status == true) ? 'green darken-1' : 'red darken-1')
                         });
+                        this.btnLoad = false;
                         this.$router.push('/pesquisa/grupo');
                     })
                     .catch(e => {
@@ -66,8 +84,8 @@ export default {
                             displayLength: 5000,
                             classes: 'red darken-1'
                         });
+                        this.btnLoad = false;
                     })
-
                 return;
             }
 
@@ -78,6 +96,7 @@ export default {
                         displayLength: 5000,
                         classes: ((resp.data.status == true) ? 'green darken-1' : 'red darken-1')
                     });
+                    this.btnLoad = false;
                     this.$router.push('/pesquisa/grupo');
                 })
                 .catch(e => {
@@ -86,6 +105,7 @@ export default {
                         displayLength: 5000,
                         classes: 'red darken-1'
                     });
+                    this.btnLoad = false;
                 })
         }
     }
@@ -94,5 +114,4 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
 </style>

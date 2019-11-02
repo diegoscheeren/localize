@@ -12,7 +12,7 @@
                         <th>Abreviação</th>
                         <th>Descrição</th>
                         <th>Quantidade</th>
-                        <th>Ações</th>
+                        <th v-if="isAdmin">Ações</th>
                     </tr>
                     </thead>
                     <tbody id="tbl">
@@ -20,7 +20,7 @@
                             <td>{{dado.abreviacao}}</td>
                             <td>{{dado.descricao}}</td>
                             <td>{{dado.quantidade}}</td>
-                            <td>
+                            <td v-if="isAdmin">
                                 <button class="btn deep-orange tooltipped" @click="editar(dado)"
                                     data-tooltip="Editar" data-position="bottom" title="Editar">
                                     <i class="material-icons">edit</i>
@@ -49,7 +49,7 @@
                     </div>
                 </div>
                 </div>
-                <div class="row">
+                <div class="row" v-if="isAdmin">
                 <router-link class="btn blue" to="/cadastro/unidade-medida">Novo</router-link>
             </div>
         </span>
@@ -64,7 +64,8 @@ export default {
     data () {
         return {
             dados: {},
-            load: true
+            load: true,
+            isAdmin: false
         }
     },
     components: {
@@ -72,6 +73,7 @@ export default {
     },
     mounted() {
         this.consultar();
+        this.isAdmin = this.$store.getters.isAdmin;
     },
     methods: {
         excluir(id) {

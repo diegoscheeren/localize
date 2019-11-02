@@ -112,7 +112,24 @@
                 </div>
             </form>
 
-            <button class="btn blue darken-1 right" @click="cadastro()">Salvar</button>
+            <button :class="'btn blue darken-1 right ' + (btnLoad ? 'disabled' : '')" @click="cadastro()">
+                <div class="row center" v-if="btnLoad">
+                    <div class="preloader-wrapper small active">
+                        <div class="spinner-layer spinner-blue-only">
+                            <div class="circle-clipper left">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="gap-patch">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="circle-clipper right">
+                                <div class="circle"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                Salvar
+            </button>
             <router-link class="btn deep-orange right" to="/pesquisa/cliente">Voltar</router-link>
         </span>
     </site-template>
@@ -137,7 +154,8 @@ export default {
             telefone: '',
             municipio: '',
             complemento: '',
-            data_nascimento: ''
+            data_nascimento: '',
+            btnLoad: false
         }
     },
     components: {
@@ -166,6 +184,8 @@ export default {
     },
     methods: {
         cadastro() {
+            this.btnLoad = true;
+
             let dados = {
                 id: this.id,
                 rg: this.rg,
@@ -190,6 +210,7 @@ export default {
                             displayLength: 5000,
                             classes: ((resp.data.status == true) ? 'green darken-1' : 'red darken-1')
                         });
+                        this.btnLoad = false;
                         this.$router.push('/pesquisa/cliente');
                     })
                     .catch(e => {
@@ -198,8 +219,8 @@ export default {
                             displayLength: 5000,
                             classes: 'red darken-1'
                         });
+                        this.btnLoad = false;
                     })
-
                 return;
             }
 
@@ -210,6 +231,7 @@ export default {
                         displayLength: 5000,
                         classes: ((resp.data.status == true) ? 'green darken-1' : 'red darken-1')
                     });
+                    this.btnLoad = false;
                     this.$router.push('/pesquisa/cliente');
                 })
                 .catch(e => {
@@ -219,6 +241,7 @@ export default {
                         classes: 'red darken-1'
                     });
                 })
+                this.btnLoad = false;
         },
         maskCPF(cpf) {
             cpf = cpf.toString().replace(/\D/g, '')
@@ -233,5 +256,4 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
 </style>

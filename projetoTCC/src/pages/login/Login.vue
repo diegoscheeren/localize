@@ -1,23 +1,53 @@
 <template>
     <login-template>
         <span slot="principal">
-            <div class="card center">
-                <div class="card-content">
-                    <h2>Login</h2>
-                    <div class="row" style="margin-bottom: -10px;">
-                        <div class="input-field inline">
-                            <input id="email" type="email" class="validate" v-model="email">
-                            <label for="email">E-Mail</label>
-                            <span class="helper-text" data-error="E-Mail inválido"></span>
+            <div class="container center">
+                <div class="row">
+                    <div class="section"></div>
+                    <main>
+                        <div class="container">
+                            <div class="z-depth-3 y-depth-3 x-depth-3 row"
+                                style="display: inline-block; padding: 32px 48px 0px 48px;
+                                    border: 1px; margin-top: 70px; solid #EEE;">
+                                <h2>Login</h2>
+                                <div class='row'>
+                                    <div class='input-field col s12'>
+                                        <i class="material-icons prefix">account_circle</i>
+                                        <input id="email" type="email" class="validate" v-model="email"
+                                            placeholder=" ">
+                                        <label for="email">E-Mail</label>
+                                        <span class="helper-text" data-error="E-Mail inválido"></span>
+                                    </div>
+                                </div>
+                                <div class='row'>
+                                    <div class='input-field col m12'>
+                                        <i class="material-icons prefix">lock</i>
+                                        <input id="pwd" type="password" v-model="password" placeholder=" ">
+                                        <label for="pwd">Senha</label>
+                                    </div>
+                                </div>
+                                <br/>
+                                <div class='row'>
+                                    <button v-if="!load" class="btn col s6 waves-effect z-depth-1 y-depth-1 center"
+                                        @click="login()" style="margin-left: 70px;">Entrar
+                                    </button>
+                                    <div class="preloader-wrapper big active" v-if="load">
+                                        <div class="spinner-layer spinner-blue-only">
+                                            <div class="circle-clipper left">
+                                                <div class="circle"></div>
+                                            </div>
+                                            <div class="gap-patch">
+                                                <div class="circle"></div>
+                                            </div>
+                                            <div class="circle-clipper right">
+                                                <div class="circle"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="input-field inline">
-                            <input id="pwd" type="password" v-model="password">
-                            <label for="pwd">Senha</label>
-                        </div>
-                    </div>
-                    <button class="btn" @click="login()">Entrar</button>
+                    </main>
                 </div>
             </div>
         </span>
@@ -32,7 +62,8 @@ export default {
     data () {
         return {
             email: 'dscheeren23@gmail.com',
-            password: '12345678'
+            password: '12345678',
+            load: false
         }
     },
     created() {
@@ -43,6 +74,7 @@ export default {
     },
     methods: {
         login() {
+            this.load = true;
             this.$http.post(this.$urlAPI + 'login', {
                 email: this.email,
                 password: this.password
@@ -58,13 +90,27 @@ export default {
                     for (let erro of Object.values(response.data.erros)) {
                         erros += erro + "\n";
                     }
-                    alert(erros);
+                    this.load = false;
+                     M.toast({
+                        html: erros,
+                        displayLength: 5000,
+                        classes: 'red darken-1'
+                    });
                 } else {
-                    alert('Login inválido!');
+                    this.load = false;
+                     M.toast({
+                        html: 'Login inválido',
+                        displayLength: 5000,
+                        classes: 'red darken-1'
+                    });
                 }
             })
             .catch(e => {
-                alert('Erro! Tente novamente mais tarde!');
+                M.toast({
+                    html: 'Erro, tente novamente mais tarde',
+                    displayLength: 5000,
+                    classes: 'red darken-1'
+                });
             })
         }
     }
@@ -73,7 +119,16 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.card {
-    width:400px;
+.container  {
+    display: flex;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.container .row {
+    margin: 0 auto;
 }
 </style>

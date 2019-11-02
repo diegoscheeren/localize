@@ -79,7 +79,7 @@
             </router-link>
         </li>
         <li><div class="divider"></div></li>
-        <li class="no-padding">
+        <li class="no-padding" v-if="this.usuario.is_admin">
             <router-link class="waves-effect" to="/pesquisa/usuario">
                 <i class="material-icons">group</i>
                 Usuários
@@ -128,6 +128,7 @@ export default {
             $('html').css('overflow', 'auto');
 
             $('table').addClass('responsive-table centered');
+            $('#table').removeClass('responsive-table');
 
             $('#search').on('keyup', function() {
                 var value = $(this).val().toLowerCase();

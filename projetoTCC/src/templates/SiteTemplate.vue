@@ -3,7 +3,14 @@
         <header style="position: fixed; top: 0; width: 100%; z-index: 1;">
             <nav-bar :user="usuario" logo="Localize" url="/" cor="grey darken-4">
                 <li v-if="!usuario"><router-link to="/login">Entrar</router-link></li>
-                <li v-if="usuario"><router-link to="/perfil">{{usuario.name}}</router-link></li>
+                <li class="hide-on-small-only" v-if="usuario">
+                    <router-link to="/perfil">{{usuario.name}}</router-link>
+                </li>
+                <li v-if="usuario" :title="usuario.name">
+                    <router-link class="hide-on-med-and-up" to="/perfil">
+                        <i class="material-icons">account_circle</i>
+                    </router-link>
+                </li>
                 <li v-if="usuario"><a v-on:click="sair()">Sair</a></li>
             </nav-bar>
         </header>

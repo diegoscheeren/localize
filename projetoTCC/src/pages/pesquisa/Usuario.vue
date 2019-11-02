@@ -34,6 +34,21 @@
                         </tr>
                     </tbody>
                 </table>
+                <div class="row center" v-if="load">
+                    <div class="preloader-wrapper big active">
+                        <div class="spinner-layer spinner-blue-only">
+                            <div class="circle-clipper left">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="gap-patch">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="circle-clipper right">
+                                <div class="circle"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 </div>
                 <div class="row">
                 <router-link class="btn blue" to="/cadastro/usuario">Novo</router-link>
@@ -49,7 +64,8 @@ export default {
     name: 'PesquisaUsuario',
     data () {
         return {
-            dados: {}
+            dados: {},
+            load: true
         }
     },
     components: {
@@ -78,6 +94,7 @@ export default {
             this.$http.get(this.$urlAPI + 'usuario')
                 .then(resp => {
                     this.dados = resp.data.data;
+                    this.load = false;
                     // M.toast({
                     //     html: resp.data.msg,
                     //     displayLength: 5000,
@@ -89,6 +106,7 @@ export default {
                         displayLength: 5000,
                         classes: 'red darken-1'
                     });
+                    this.load = false;
                 })
         }
     }

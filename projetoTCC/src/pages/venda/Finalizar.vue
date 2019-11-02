@@ -2,8 +2,61 @@
     <site-template>
         <span slot="principal">
             <h5 class="center">Pagamento Comanda Nº {{this.pedido}}</h5>
-            <form name="form" enctype="multipart/form-data">
-                <div class="card col s7">
+            <div class="row">
+                <div class="card col s12 m5 l4 right">
+                    <span class="card-title">
+                        <div class="row center">Pagamento</div>
+                    </span>
+                    <div class="card-content" style="margin-top: -40px">
+                        <div class="input-field">
+                            <input disabled type="text" v-model="valor_total">
+                            <label>Valor Total</label>
+                        </div>
+                        <div class="input-field">
+                            <input v-focus type="text" @keyup="calcTroco" v-model="valor_pago">
+                            <label>Valor Pago</label>
+                        </div>
+                        <div class="input-field">
+                            <input disabled type="text" v-model="valor_troco" style="color: black;">
+                            <label>Troco</label>
+                        </div>
+                        <div class="input-field">
+                            <input disabled type="text" v-model="cliente">
+                            <label>Cliente</label>
+                        </div>
+                        <div class="input-field">
+                            <select>
+                                <!-- <option value="" disabled selected>Selecione...</option> -->
+                                <option value="1">Dinheiro</option>
+                                <option value="2">Cartão Débito</option>
+                                <option value="3">Cartão Crédito</option>
+                            </select>
+                            <label>Forma de Pagamento</label>
+                        </div>
+                        <div class="input-field center">
+                            <a :class="'waves-effect waves-light green accent-3 btn-large '
+                                + (btnLoad ? 'disabled' : '')" @click="finalizar">
+                            <div class="row center" v-if="btnLoad" style="margin-top: 8px">
+                                <div class="preloader-wrapper small active">
+                                    <div class="spinner-layer spinner-green-only">
+                                        <div class="circle-clipper left">
+                                            <div class="circle"></div>
+                                        </div>
+                                        <div class="gap-patch">
+                                            <div class="circle"></div>
+                                        </div>
+                                        <div class="circle-clipper right">
+                                            <div class="circle"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            Finalizar</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card col s12 m6 l7">
                     <table class="responsive-table centered">
                         <thead>
                         <tr>
@@ -24,7 +77,7 @@
                             </tr>
                         </tbody>
                     </table>
-                    <div class="row center" v-if="load">
+                    <div class="row center" v-if="load" style="margin-top: 20px">
                         <div class="preloader-wrapper big active">
                             <div class="spinner-layer spinner-blue-only">
                                 <div class="circle-clipper left">
@@ -46,46 +99,7 @@
                         <router-link class="btn deep-orange" to="/venda/comanda">Voltar</router-link>
                     </div>
                 </div>
-
-                <div class="col s1"/>
-
-                <div class="card col s4">
-                    <span class="card-title">
-                        <div class="row center">Pagamento</div>
-                    </span>
-                    <div class="card-content" style="margin-top: -40px">
-                        <div class="input-field">
-                            <input disabled type="text" v-model="valor_total">
-                            <label>Valor Total</label>
-                        </div>
-                        <div class="input-field">
-                            <input v-focus type="text" @keyup="calcTroco" v-model="valor_pago">
-                            <label>Valor Pago</label>
-                        </div>
-                        <div class="input-field">
-                            <input disabled type="text" v-model="valor_troco" style="color: black;">
-                            <label>Troco</label>
-                        </div>
-                        <div class="input-field">
-                            <input disabled type="text" v-model="cliente" style="color: black;">
-                            <label>Cliente</label>
-                        </div>
-                        <div class="input-field">
-                            <select>
-                                <!-- <option value="" disabled selected>Selecione...</option> -->
-                                <option value="1">Dinheiro</option>
-                                <option value="2">Cartão Débito</option>
-                                <option value="3">Cartão Crédito</option>
-                            </select>
-                            <label>Forma de Pagamento</label>
-                        </div>
-                        <div class="input-field center">
-                            <a class="waves-effect waves-light green accent-3 btn-large"
-                                @click="finalizar">Finalizar</a>
-                        </div>
-                    </div>
-                </div>
-            </form>
+            </div>
         </span>
     </site-template>
 </template>
@@ -104,7 +118,8 @@ export default {
             cliente: ' ',
             itensPedido: [],
             isEdit: {},
-            load: true
+            load: true,
+            btnLoad: false
         }
     },
     components: {
@@ -115,7 +130,6 @@ export default {
         this.isData = !jQuery.isEmptyObject(dados);
 
         if (this.isData) {
-            console.log(dados);
             this.valor_total = dados.valor_total;
             this.cliente = dados.pedido_cliente.nome;
             this.pedido = dados.id;
@@ -143,14 +157,17 @@ export default {
             this.valor_troco = (troco >= 0) ? troco : 0;
         },
         finalizar() {
+            this.btnLoad = true;
+
             let dados = {pedido: this.pedido};
              this.$http.post(this.$urlAPI + 'finalizar-pedido', dados)
                 .then(resp => {
                     M.toast({
                         html: resp.data.msg,
                         displayLength: 5000,
-                        classes: ((resp.data.status == true) ? 'green darken-1' : 'red darken-1')});
-
+                        classes: ((resp.data.status == true) ? 'green darken-1' : 'red darken-1')
+                    });
+                    this.btnLoad = false;
                     (resp.data.status == true) && this.$router.push('/venda/comanda')
                 })
                 .catch(e => {
@@ -159,6 +176,7 @@ export default {
                         displayLength: 5000,
                         classes: 'red darken-1'
                     });
+                    this.btnLoad = false;
                 })
         }
     }
