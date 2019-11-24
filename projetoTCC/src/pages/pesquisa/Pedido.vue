@@ -19,12 +19,12 @@
                 <table class="responsive-table centered" v-if="!load">
                     <thead>
                     <tr>
-                        <th>Pedido</th>
+                        <th>Nº</th>
                         <th>Cliente</th>
                         <th>Garçom</th>
                         <th>Pessoas</th>
                         <th>Mesa</th>
-                        <th>Total</th>
+                        <th>R$ Total</th>
                         <th>Ações</th>
                     </tr>
                     </thead>
@@ -35,7 +35,7 @@
                             <td>{{dado.pedido_garcom.name || ''}}</td>
                             <td>{{dado.quantidade_pessoas}}</td>
                             <td>{{dado.mesa}}</td>
-                            <td>{{dado.valor_total}}</td>
+                            <td>{{parseFloat(dado.valor_total).toFixed(2)}}</td>
                             <td>
                                 <button class="btn deep-orange tooltipped" @click="editar(dado)"
                                     data-tooltip="Editar">
@@ -66,7 +66,7 @@
                 </div>
             </div>
             <div class="row">
-                <router-link class="btn blue" to="/cadastro/pedido">Novo</router-link>
+                <router-link class="btn blue" to="/cadastro-pedido">Novo</router-link>
             </div>
         </span>
     </site-template>
@@ -104,7 +104,7 @@ export default {
         },
         editar(row) {
             this.$store.commit('setData', row);
-            this.$router.push('/cadastro/pedido');
+            this.$router.push('/cadastro-pedido');
         },
         consultar() {
             this.load = true;

@@ -28,7 +28,7 @@
                 </div>
                 Salvar
             </button>
-            <router-link class="btn deep-orange right" to="/pesquisa/grupo">Voltar</router-link>
+            <router-link class="btn deep-orange right" to="/pesquisa-grupo">Voltar</router-link>
         </span>
     </site-template>
 </template>
@@ -76,7 +76,7 @@ export default {
                             classes: ((resp.data.status == true) ? 'green darken-1' : 'red darken-1')
                         });
                         this.btnLoad = false;
-                        this.$router.push('/pesquisa/grupo');
+                        this.$router.push('/pesquisa-grupo');
                     })
                     .catch(e => {
                         M.toast({
@@ -97,7 +97,7 @@ export default {
                         classes: ((resp.data.status == true) ? 'green darken-1' : 'red darken-1')
                     });
                     this.btnLoad = false;
-                    this.$router.push('/pesquisa/grupo');
+                    this.$router.push('/pesquisa-grupo');
                 })
                 .catch(e => {
                     M.toast({

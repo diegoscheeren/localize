@@ -46,7 +46,7 @@
                 </div>
             </div>
             <div class="row" v-if="isAdmin">
-                <router-link class="btn blue" to="/cadastro/grupo">Novo</router-link>
+                <router-link class="btn blue" to="/cadastro-grupo">Novo</router-link>
             </div>
         </span>
     </site-template>
@@ -85,7 +85,7 @@ export default {
         },
         editar(row) {
             this.$store.commit('setData', row);
-            this.$router.push('/cadastro/grupo');
+            this.$router.push('/cadastro-grupo');
         },
         consultar() {
             this.$http.get(this.$urlAPI + 'grupo')

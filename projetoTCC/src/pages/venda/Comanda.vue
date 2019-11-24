@@ -9,11 +9,11 @@
                 <table class="responsive-table centered" v-if="!load">
                     <thead>
                     <tr>
-                        <th>Pedido</th>
+                        <th>Nº</th>
                         <th>Cliente</th>
                         <th>Garçom</th>
                         <th>Mesa</th>
-                        <th>Total</th>
+                        <th>R$ Total</th>
                         <th>Ações</th>
                     </tr>
                     </thead>
@@ -23,7 +23,7 @@
                             <td>{{dado.pedido_cliente.nome}}</td>
                             <td>{{dado.pedido_garcom.name || ''}}</td>
                             <td>{{dado.mesa}}</td>
-                            <td>{{dado.valor_total}}</td>
+                            <td>{{parseFloat(dado.valor_total).toFixed(2)}}</td>
                             <td>
                                 <a class="btn red tooltipped waves-effect" @click="finalizar(dado)"
                                     data-tooltip="Finalizar">Finalizar
@@ -72,7 +72,7 @@ export default {
     methods: {
         finalizar(row) {
             this.$store.commit('setData', row);
-            this.$router.push('/venda/finalizar');
+            this.$router.push('/venda-finalizar');
         },
         consultar() {
             this.$http.get(this.$urlAPI + 'pedido')

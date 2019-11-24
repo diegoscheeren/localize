@@ -38,12 +38,12 @@
                     <label>Grupo</label>
                 </div>
 
-                <div class="input-field">
+                <!-- <div class="input-field">
                     <select name="unidade_medida" id="unidade_medida" v-model="unidade_medida">
                         <option value=""/>
                     </select>
                     <label>Unidade de Medida</label>
-                </div>
+                </div> -->
 
                 <div class="file-field input-field">
                     <div class="btn">
@@ -74,7 +74,7 @@
                 </div>
                 Salvar
             </button>
-            <router-link class="btn deep-orange right" to="/pesquisa/item">Voltar</router-link>
+            <router-link class="btn deep-orange right" to="/pesquisa-item">Voltar</router-link>
         </span>
     </site-template>
 </template>
@@ -93,7 +93,7 @@ export default {
             descricao: '',
             valor_custo: '',
             valor_venda: '',
-            unidade_medida: '',
+            // unidade_medida: '',
             isEdit: false,
             btnLoad: false
         }
@@ -113,12 +113,12 @@ export default {
             this.descricao = dados.descricao;
             this.valor_custo = dados.valor_custo;
             this.valor_venda = dados.valor_venda;
-            this.unidade_medida = dados.unidade_medida.id;
+            // this.unidade_medida = dados.unidade_medida.id;
 
             this.$store.commit('setData', {});
         }
         this.setGrupos();
-        this.setUnidadesMedida();
+        // this.setUnidadesMedida();
     },
     methods: {
         cadastro() {
@@ -132,13 +132,13 @@ export default {
                 descricao: this.descricao,
                 valor_custo: this.valor_custo,
                 valor_venda: this.valor_venda,
-                unidade_medida: this.unidade_medida
+                // unidade_medida: this.unidade_medida
             };
 
             dados.grupo = $('#grupo').val();
-            dados.unidade_medida = $('#unidade_medida').val();
+            // dados.unidade_medida = $('#unidade_medida').val();
 
-            if (!dados.grupo || !dados.unidade_medida) {
+            if (!dados.grupo) {
                 M.toast({
                     html: 'Informe todos os campos',
                     displayLength: 5000,
@@ -157,7 +157,7 @@ export default {
                             classes: ((resp.data.status == true) ? 'green darken-1' : 'red darken-1')
                         });
                         this.btnLoad = false;
-                        this.$router.push('/pesquisa/item');
+                        this.$router.push('/pesquisa-item');
                     })
                     .catch(e => {
                         M.toast({
@@ -178,7 +178,7 @@ export default {
                         classes: ((resp.data.status == true) ? 'green darken-1' : 'red darken-1')
                     });
                     this.btnLoad = false;
-                    this.$router.push('/pesquisa/item');
+                    this.$router.push('/pesquisa-item');
                 })
                 .catch(e => {
                     M.toast({

@@ -23,7 +23,7 @@
             </form>
 
             <button class="btn blue darken-1 right" @click="cadastro()">Salvar</button>
-            <router-link class="btn deep-orange right" to="/pesquisa/unidade-medida">Voltar</router-link>
+            <router-link class="btn deep-orange right" to="/pesquisa-unidade-medida">Voltar</router-link>
         </span>
     </site-template>
 </template>
@@ -74,7 +74,7 @@ export default {
                             displayLength: 5000,
                             classes: ((resp.data.status == true) ? 'green darken-1' : 'red darken-1')
                         });
-                        this.$router.push('/pesquisa/unidade-medida');
+                        this.$router.push('/pesquisa-unidade-medida');
                     })
                     .catch(e => {
                         M.toast({
@@ -94,7 +94,7 @@ export default {
                         displayLength: 5000,
                         classes: ((resp.data.status == true) ? 'green darken-1' : 'red darken-1')
                     });
-                    this.$router.push('/pesquisa/unidade-medida');
+                    this.$router.push('/pesquisa-unidade-medida');
                 })
                 .catch(e => {
                     M.toast({

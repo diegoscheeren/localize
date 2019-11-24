@@ -23,8 +23,8 @@
                             <td>{{dado.codigo}}</td>
                             <td>{{dado.descricao}}</td>
                             <td>{{dado.item_grupo.descricao}}</td>
-                            <td>{{dado.valor_custo}}</td>
-                            <td>{{dado.valor_venda}}</td>
+                            <td>{{parseFloat(dado.valor_custo).toFixed(2)}}</td>
+                            <td>{{parseFloat(dado.valor_venda).toFixed(2)}}</td>
                             <td><b>{{dado.estoque}}</b></td>
                             <td>
                                 <button class="btn deep-orange tooltipped" @click="editar(dado)"
@@ -86,7 +86,7 @@ export default {
         },
         editar(row) {
             this.$store.commit('setData', row);
-            this.$router.push('/estoque/acerto');
+            this.$router.push('/estoque-acerto');
         },
         consultar() {
             this.$http.get(this.$urlAPI + 'item')

@@ -52,7 +52,7 @@
                                 <th>Grupo</th>
                                 <th>Quantidade</th>
                                 <th>Preço</th>
-                                <th>Total</th>
+                                <th>R$ Total</th>
                                 <th>Ações</th>
                             </tr>
                             </thead>
@@ -69,8 +69,8 @@
                                     <td>{{itemPedido.descricao}}</td>
                                     <td>{{itemPedido.item_grupo ? itemPedido.item_grupo.descricao : itemPedido.grupo}}</td>
                                     <td><b>{{itemPedido.quantidade}}</b></td>
-                                    <td>{{itemPedido.valor_venda}}</td>
-                                    <td>{{itemPedido.quantidade * itemPedido.valor_venda}}</td>
+                                    <td>{{parseFloat(itemPedido.valor_venda).toFixed(2)}}</td>
+                                    <td>{{parseFloat(itemPedido.quantidade * itemPedido.valor_venda).toFixed(2)}}</td>
                                     <td>
                                         <a class="btn-floating green tooltipped" @click="somar(itemPedido, true)"
                                             data-tooltip="Editar" data-position="bottom">
@@ -136,7 +136,7 @@
                                     <th>Descrição</th>
                                     <th>Quantidade</th>
                                     <th>Preço</th>
-                                    <th>Total</th>
+                                    <th>R$ Total</th>
                                     <th>Estoque</th>
                                     <th>Ações</th>
                                 </tr>
@@ -152,8 +152,8 @@
                                     </td>
                                     <td>{{item.descricao}}</td>
                                     <td><b>{{item.quantidade || 0}}</b></td>
-                                    <td>{{item.valor_venda}}</td>
-                                    <td><b>{{item.quantidade * item.valor_venda}}</b></td>
+                                    <td>{{parseFloat(item.valor_venda).toFixed(2)}}</td>
+                                    <td><b>{{parseFloat(item.quantidade * item.valor_venda).toFixed(2)}}</b></td>
                                     <td>{{item.estoque}}</td>
                                     <td>
                                         <button class="btn-floating green tooltipped" @click="somar(item)"
@@ -194,7 +194,7 @@
                 </div>
                 Salvar
             </button>
-            <router-link class="btn deep-orange right" to="/pesquisa/pedido">Voltar</router-link>
+            <router-link class="btn deep-orange right" to="/pesquisa-pedido">Voltar</router-link>
         </span>
     </site-template>
 </template>
@@ -287,7 +287,7 @@ export default {
                             classes: ((resp.data.status == true) ? 'green darken-1' : 'red darken-1')
                         });
                         this.btnLoad = false;
-                        this.$router.push('/pesquisa/pedido');
+                        this.$router.push('/pesquisa-pedido');
                     })
                     .catch(e => {
                         this.btnLoad = false;
@@ -308,7 +308,7 @@ export default {
                         classes: ((resp.data.status == true) ? 'green darken-1' : 'red darken-1')
                     });
                     this.btnLoad = false;
-                    this.$router.push('/pesquisa/pedido');
+                    this.$router.push('/pesquisa-pedido');
                 })
                 .catch(e => {
                     M.toast({

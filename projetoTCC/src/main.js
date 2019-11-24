@@ -20,7 +20,7 @@ axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 Vue.config.productionTip = false
 Vue.prototype.$http = axios
 // Vue.prototype.$urlAPI = `http://${window.location.hostname}:8000/api/`
-Vue.prototype.$urlAPI = `http://d38f2075.ngrok.io/api/`
+Vue.prototype.$urlAPI = `http://localhost:8000/api/`
 
 var store = {
     state: {

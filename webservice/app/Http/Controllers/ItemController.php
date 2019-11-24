@@ -14,7 +14,7 @@ class ItemController extends Controller
         return [
             'msg' => 'Pesquisa realizada com sucesso',
             'status' => true,
-            'data' => Item::with('unidadeMedida', 'itemGrupo')->get()
+            'data' => Item::with('itemGrupo')->get()
         ];
     }
 
@@ -23,6 +23,7 @@ class ItemController extends Controller
         $dados = $req->all();
         unset($dados['id']);
 
+        $dados['unidade_medida'] = 1;
         // if ($req->hasFile('imagem')) {
         //     $imagem = $req->file('imagem');
         //     $num = rand(1111, 9999);

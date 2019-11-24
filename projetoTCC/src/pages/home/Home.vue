@@ -22,7 +22,7 @@
                                             </div>
                                         </div>
                                         <span v-if="!load" class="card-title"
-                                            style="font-size: 45px; font-weight: bold">{{this.clienteHoje}}</span>
+                                            style="font-size: 45px; font-weight: bold">{{this.clienteHoje || 0}}</span>
                                     </div>
                                     <div class="col s8 m5">
                                         <i class="material-icons" style="font-size: 90px; color: #2169f3;">people</i>
@@ -54,7 +54,7 @@
                                             </div>
                                         </div>
                                         <span v-if="!load" class="card-title"
-                                            style="font-size: 45px; font-weight: bold">{{this.comandasAbertas}}</span>
+                                            style="font-size: 45px; font-weight: bold">{{this.comandasAbertas || 0}}</span>
                                     </div>
                                     <div class="col s8 m5">
                                         <i class="material-icons" style="font-size: 90px; color: #db8b24;">note_add</i>
@@ -86,7 +86,7 @@
                                             </div>
                                         </div>
                                         <span v-if="!load" class="card-title"
-                                            style="font-size: 45px; font-weight: bold">{{this.vendasMes}}</span>
+                                            style="font-size: 45px; font-weight: bold">{{this.vendasMes || 0}}</span>
                                     </div>
                                     <div class="col s8 m5">
                                         <i class="material-icons" style="font-size: 90px; color: #47a128;">add_shopping_cart</i>

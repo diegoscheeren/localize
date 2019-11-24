@@ -12,7 +12,6 @@
                         <th>Código</th>
                         <th>Descrição</th>
                         <th>Grupo</th>
-                        <th>Un. Medida</th>
                         <th>Custo</th>
                         <th>Preço</th>
                         <th>Estoque</th>
@@ -24,9 +23,8 @@
                             <td>{{dado.codigo}}</td>
                             <td>{{dado.descricao}}</td>
                             <td>{{dado.item_grupo.descricao}}</td>
-                            <td>{{dado.unidade_medida.abreviacao}}</td>
-                            <td>{{dado.valor_custo}}</td>
-                            <td>{{dado.valor_venda}}</td>
+                            <td>{{parseFloat(dado.valor_custo).toFixed(2)}}</td>
+                            <td>{{parseFloat(dado.valor_venda).toFixed(2)}}</td>
                             <td>{{dado.estoque}}</td>
                             <td v-if="isAdmin">
                                 <button class="btn deep-orange tooltipped" @click="editar(dado)"
@@ -58,7 +56,7 @@
                 </div>
             </div>
             <div class="row" v-if="isAdmin">
-                <router-link class="btn blue" to="/cadastro/item">Novo</router-link>
+                <router-link class="btn blue" to="/cadastro-item">Novo</router-link>
             </div>
         </span>
     </site-template>
@@ -97,7 +95,7 @@ export default {
         },
         editar(row) {
             this.$store.commit('setData', row);
-            this.$router.push('/cadastro/item');
+            this.$router.push('/cadastro-item');
         },
         consultar() {
             this.$http.get(this.$urlAPI + 'item')

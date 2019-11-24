@@ -50,7 +50,7 @@
                 </div>
                 </div>
                 <div class="row" v-if="isAdmin">
-                <router-link class="btn blue" to="/cadastro/unidade-medida">Novo</router-link>
+                <router-link class="btn blue" to="/cadastro-unidade-medida">Novo</router-link>
             </div>
         </span>
     </site-template>
@@ -89,7 +89,7 @@ export default {
         },
         editar(row) {
             this.$store.commit('setData', row);
-            this.$router.push('/cadastro/unidade-medida');
+            this.$router.push('/cadastro-unidade-medida');
         },
         consultar() {
             this.$http.get(this.$urlAPI + 'unidade-medida')

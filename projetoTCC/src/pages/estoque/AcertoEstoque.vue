@@ -54,7 +54,7 @@
                 </div>
                 Concluir
             </button>
-            <router-link class="btn deep-orange right" to="/pesquisa/estoque">Voltar</router-link>
+            <router-link class="btn deep-orange right" to="/pesquisa-estoque">Voltar</router-link>
         </span>
     </site-template>
 </template>
@@ -120,7 +120,7 @@ export default {
                         classes: ((resp.data.status == true) ? 'green darken-1' : 'red darken-1')
                     });
                     this.btnLoad = false;
-                    this.$router.push('/pesquisa/estoque');
+                    this.$router.push('/pesquisa-estoque');
                 })
                 .catch(e => {
                     M.toast({

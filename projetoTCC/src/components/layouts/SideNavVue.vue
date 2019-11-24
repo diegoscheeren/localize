@@ -29,25 +29,25 @@
                     <div class="collapsible-body">
                         <ul>
                             <li>
-                                <router-link class="waves-effect" to="/pesquisa/cliente">
+                                <router-link class="waves-effect" to="/pesquisa-cliente">
                                     <i class="material-icons">person_add</i>
                                     Clientes
                                 </router-link>
                             </li>
                             <li>
-                                <router-link class="waves-effect" to="/pesquisa/item">
+                                <router-link class="waves-effect" to="/pesquisa-item">
                                     <i class="material-icons">local_bar</i>
                                     Itens
                                 </router-link>
                             </li>
-                            <li>
-                                <router-link class="waves-effect" to="/pesquisa/unidade-medida">
+                            <!-- <li>
+                                <router-link class="waves-effect" to="/pesquisa-unidade-medida">
                                     <i class="material-icons">settings_ethernet</i>
                                     Unidades de medida
                                 </router-link>
-                            </li>
+                            </li> -->
                             <li>
-                                <router-link class="waves-effect" to="/pesquisa/grupo">
+                                <router-link class="waves-effect" to="/pesquisa-grupo">
                                     <i class="material-icons">group_work</i>
                                     Grupos de itens
                                 </router-link>
@@ -59,28 +59,28 @@
         </li>
         <li><div class="divider"></div></li>
         <li class="no-padding">
-            <router-link class="waves-effect" to="/pesquisa/pedido">
+            <router-link class="waves-effect" to="/pesquisa-pedido">
                 <i class="material-icons">note_add</i>
                 Comandas
             </router-link>
         </li>
         <li><div class="divider"></div></li>
         <li class="no-padding">
-            <router-link class="waves-effect" to="/venda/comanda">
+            <router-link class="waves-effect" to="/venda-comanda">
                 <i class="material-icons">monetization_on</i>
                 Vendas
             </router-link>
         </li>
         <li><div class="divider"></div></li>
         <li class="no-padding">
-            <router-link class="waves-effect" to="/pesquisa/estoque">
+            <router-link class="waves-effect" to="/pesquisa-estoque">
                 <i class="material-icons">apps</i>
                 Estoque
             </router-link>
         </li>
         <li><div class="divider"></div></li>
         <li class="no-padding" v-if="this.usuario.is_admin">
-            <router-link class="waves-effect" to="/pesquisa/usuario">
+            <router-link class="waves-effect" to="/pesquisa-usuario">
                 <i class="material-icons">group</i>
                 Usuários
             </router-link>

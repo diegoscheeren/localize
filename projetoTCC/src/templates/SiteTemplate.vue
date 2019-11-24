@@ -1,6 +1,6 @@
 <template>
     <span>
-        <header style="position: fixed; top: 0; width: 100%; z-index: 1;">
+        <header style="position: fixed; top: 0; width: 100%; z-index: 2;">
             <nav-bar :user="usuario" logo="Localize" url="/" cor="grey darken-4">
                 <li v-if="!usuario"><router-link to="/login">Entrar</router-link></li>
                 <li class="hide-on-small-only" v-if="usuario">

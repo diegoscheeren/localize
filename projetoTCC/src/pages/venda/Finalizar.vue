@@ -64,7 +64,7 @@
                             <th>Grupo</th>
                             <th>Quantidade</th>
                             <th>Preço</th>
-                            <th>Total</th>
+                            <th>R$ Total</th>
                         </tr>
                         </thead>
                         <tbody id="tbl" v-if="!load">
@@ -72,8 +72,8 @@
                                 <td>{{itemPedido.descricao}}</td>
                                 <td>{{itemPedido.item_grupo ? itemPedido.item_grupo.descricao : itemPedido.grupo}}</td>
                                 <td><b>{{itemPedido.quantidade}}</b></td>
-                                <td>{{itemPedido.valor_venda}}</td>
-                                <td>{{itemPedido.quantidade * itemPedido.valor_venda}}</td>
+                                <td>{{parseFloat(itemPedido.valor_venda).toFixed(2)}}</td>
+                                <td>{{parseFloat(itemPedido.quantidade * itemPedido.valor_venda).toFixed(2)}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -93,10 +93,10 @@
                         </div>
                     </div>
                     <div class="card-content right" style="color: black;">
-                        <b>Total a pagar: R$ {{this.valor_total}}</b>
+                        <b>Total a pagar: R$ {{parseFloat(this.valor_total).toFixed(2)}}</b>
                     </div>
                     <div class="input-field">
-                        <router-link class="btn deep-orange" to="/venda/comanda">Voltar</router-link>
+                        <router-link class="btn deep-orange" to="/venda-comanda">Voltar</router-link>
                     </div>
                 </div>
             </div>
@@ -168,7 +168,7 @@ export default {
                         classes: ((resp.data.status == true) ? 'green darken-1' : 'red darken-1')
                     });
                     this.btnLoad = false;
-                    (resp.data.status == true) && this.$router.push('/venda/comanda')
+                    (resp.data.status == true) && this.$router.push('/venda-comanda')
                 })
                 .catch(e => {
                     M.toast({

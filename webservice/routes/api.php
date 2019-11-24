@@ -6,11 +6,6 @@ use Illuminate\Http\Request;
 |--------------------------------------------------------------------------
 | API Routes
 |--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
 */
 
 Route::post('/login', ['as' => 'login', 'uses' => 'AuthController@login']);
@@ -49,17 +44,17 @@ Route::put('/pedido', ['as' => 'atualizar.pedido', 'uses' => 'PedidoController@a
 Route::post('/pedido', ['as' => 'cadastrar.pedido', 'uses' => 'PedidoController@salvar']);
 Route::delete('/pedido', ['as' => 'deletar.pedido', 'uses' => 'PedidoController@deletar']);
 
-//_______________________________ Unidade de Medida _____________________________________//
-Route::get('/unidade-medida', ['as' => 'pesquisar.unidade-medida', 'uses' => 'UnidadeMedidaController@pesquisar']);
-Route::put('/unidade-medida', ['as' => 'atualizar.unidade-medida', 'uses' => 'UnidadeMedidaController@atualizar']);
-Route::post('/unidade-medida', ['as' => 'cadastrar.unidade-medida', 'uses' => 'UnidadeMedidaController@salvar']);
-Route::delete('/unidade-medida', ['as' => 'deletar.unidade-medida', 'uses' => 'UnidadeMedidaController@deletar']);
-
 //_______________________________ Grupo de Itens __________________________________________//
 Route::get('/grupo', ['as' => 'pesquisar.grupo', 'uses' => 'ItemGrupoController@pesquisar']);
 Route::put('/grupo', ['as' => 'atualizar.grupo', 'uses' => 'ItemGrupoController@atualizar']);
 Route::post('/grupo', ['as' => 'cadastrar.grupo', 'uses' => 'ItemGrupoController@salvar']);
 Route::delete('/grupo', ['as' => 'deletar.grupo', 'uses' => 'ItemGrupoController@deletar']);
+
+//_______________________________ Unidade de Medida _____________________________________//
+Route::get('/unidade-medida', ['as' => 'pesquisar.unidade-medida', 'uses' => 'UnidadeMedidaController@pesquisar']);
+Route::put('/unidade-medida', ['as' => 'atualizar.unidade-medida', 'uses' => 'UnidadeMedidaController@atualizar']);
+Route::post('/unidade-medida', ['as' => 'cadastrar.unidade-medida', 'uses' => 'UnidadeMedidaController@salvar']);
+Route::delete('/unidade-medida', ['as' => 'deletar.unidade-medida', 'uses' => 'UnidadeMedidaController@deletar']);
 
 //_______________________________ Entrada Estoque __________________________________________//
 Route::post('/estoque', ['as' => 'estoque.entrada', 'uses' => 'ItemController@estoqueEntrada']);

@@ -41,82 +41,82 @@ export default new Router({
             component: Perfil
         },
         {
-            path: '/cadastro/item',
+            path: '/cadastro-item',
             name: 'Cadastro',
             component: Item
         },
         {
-            path: '/cadastro/cliente',
+            path: '/cadastro-cliente',
             name: 'Cliente',
             component: Cliente
         },
         {
-            path: '/pesquisa/cliente',
+            path: '/pesquisa-cliente',
             name: 'PesquisaCliente',
             component: PesquisaCliente
         },
         {
-            path: '/pesquisa/item',
+            path: '/pesquisa-item',
             name: 'PesquisaItem',
             component: PesquisaItem
         },
         {
-            path: '/pesquisa/pedido',
+            path: '/pesquisa-pedido',
             name: 'PesquisaPedido',
             component: PesquisaPedido
         },
         {
-            path: '/cadastro/pedido',
+            path: '/cadastro-pedido',
             name: 'Pedido',
             component: Pedido
         },
         {
-            path: '/pesquisa/unidade-medida',
+            path: '/pesquisa-unidade-medida',
             name: 'PesquisaUnidadeMedida',
             component: PesquisaUnidadeMedida
         },
         {
-            path: '/cadastro/unidade-medida',
+            path: '/cadastro-unidade-medida',
             name: 'UnidadeMedida',
             component: UnidadeMedida
         },
         {
-            path: '/pesquisa/grupo',
+            path: '/pesquisa-grupo',
             name: 'PesquisaItemGrupo',
             component: PesquisaItemGrupo
         },
         {
-            path: '/cadastro/grupo',
+            path: '/cadastro-grupo',
             name: 'ItemGrupo',
             component: ItemGrupo
         },
         {
-            path: '/pesquisa/usuario',
+            path: '/pesquisa-usuario',
             name: 'PesquisaUsuario',
             component: PesquisaUsuario
         },
         {
-            path: '/cadastro/usuario',
+            path: '/cadastro-usuario',
             name: 'Usuario',
             component: Usuario
         },
         {
-            path: '/venda/comanda',
+            path: '/venda-comanda',
             name: 'Comanda',
             component: PesquisaComanda
         },
         {
-            path: '/venda/finalizar',
+            path: '/venda-finalizar',
             name: 'Finalizar',
             component: Finalizar
         },
         {
-            path: '/pesquisa/estoque',
+            path: '/pesquisa-estoque',
             name: 'PesquisaEstoque',
             component: PesquisaEstoque
         },
         {
-            path: '/estoque/acerto',
+            path: '/estoque-acerto',
             name: 'AcertoEstoque',
             component: AcertoEstoque
         },

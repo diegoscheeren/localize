@@ -51,7 +51,7 @@
                 </div>
                 </div>
                 <div class="row">
-                <router-link class="btn blue" to="/cadastro/usuario">Novo</router-link>
+                <router-link class="btn blue" to="/cadastro-usuario">Novo</router-link>
             </div>
         </span>
     </site-template>
@@ -88,7 +88,7 @@ export default {
         },
         editar(row) {
             this.$store.commit('setData', row);
-            this.$router.push('/cadastro/usuario');
+            this.$router.push('/cadastro-usuario');
         },
         consultar() {
             this.$http.get(this.$urlAPI + 'usuario')
